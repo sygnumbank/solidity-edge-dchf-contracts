@@ -5,7 +5,7 @@ const EdgeTokenProxy = artifacts.require("EdgeTokenProxy")
 const encodeCall = require("zos-lib/lib/helpers/encodeCall");
 
 module.exports = function( deployer ) {
-    this.proxyAdmin= "0x0e5b1454a9b49d85F2De52D8C8027dF0EcDD5894"; 
+   /* this.proxyAdmin= "0x0e5b1454a9b49d85F2De52D8C8027dF0EcDD5894"; 
     this.tokenAdmin = "0xD3C01261e6F3ca16AcA451202Ab1DA21C02A1F83"; 
 
     deployer.deploy(EdgeToken)
@@ -31,5 +31,5 @@ module.exports = function( deployer ) {
         }).then(function(initDone) {
             console.log("Deployer edgeTokenProxy at ", this.edgeTokenProxy.address);
             console.log("Deployer edgeTokenImpl at ", this.edgeTokenImpl.address);	
-        })
+        })*/
 };
