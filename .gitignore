@@ -1,6 +1,32 @@
-node_modules/
-.env
-build/
-coverage/
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+allFiredEvents
+scTopics
+
+# Coverage directory used by tools like istanbul
+coverage
 coverage.json
+coverageEnv
+
+# Dependency directory
+node_modules
+
+# local env variables
+.env
+
+# truffle
+.node-xmlhttprequest-*
+
+# only used to package 
+contracts/build/
+contracts/README.md
+
+# package lock
 package-lock.json
+
