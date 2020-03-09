@@ -150,7 +150,7 @@ contract('EdgeToken', function ([admin, operator, system, whitelisted, whitelist
 			                        assert.equal(await this.token.balanceOf(whitelisted), this.mint)
 			            		})
 			            		it('revert for over burn balance', async function () {
-				                    await expectRevert(this.token.burnFor(whitelisted, this.overflow, { from: operator }), 'ERC20: burn amount exceeds balance.')
+				                    await expectRevert(this.token.burnFor(whitelisted, this.overflow, { from: operator }), 'Reason given: SafeMath: subtraction overflow.')
 			                        assert.equal(await this.token.balanceOf(whitelisted), this.mint)
 			            		})	
 			            		it('revert system burnFor', async function () {
@@ -218,7 +218,7 @@ contract('EdgeToken', function ([admin, operator, system, whitelisted, whitelist
 				describe('burn', function () {
 					describe('nonfunctional', function () {
 	            		it('revert for over burn balance', async function () {
-		                    await expectRevert(this.token.burn(this.overflow, { from: whitelisted }), 'ERC20: burn amount exceeds balance.')
+		                    await expectRevert(this.token.burn(this.overflow, { from: whitelisted }), 'SafeMath: subtraction overflow.')
 	                        assert.equal(await this.token.balanceOf(whitelisted), this.mint)
 	            		})	
 	            		it('revert for notWhitelisted', async function () {
@@ -265,7 +265,7 @@ contract('EdgeToken', function ([admin, operator, system, whitelisted, whitelist
 								await expectRevert(this.token.confiscate(whitelisted, whitelisted2, this.confiscate, { from: admin }), 'Operatorable: caller does not have the operator role')
 							});		
 							it('revert confiscate not enough balance', async function () {
-								await expectRevert(this.token.confiscate(whitelisted2, whitelisted, this.confiscate, { from: operator }), 'ERC20: transfer amount exceeds balance.')
+								await expectRevert(this.token.confiscate(whitelisted2, whitelisted, this.confiscate, { from: operator }), 'SafeMath: subtraction overflow.')
 							});		
 							describe('when paused', async function (){0
 								beforeEach(async function (){
@@ -328,7 +328,7 @@ contract('EdgeToken', function ([admin, operator, system, whitelisted, whitelist
 							assert.equal(await this.token.balanceOf(whitelisted), this.mint)						
 						})
 						it('revert transfer more than balance', async function (){
-		                    await expectRevert(this.token.transfer(whitelisted1, (this.mint + this.transfer), { from: whitelisted }), 'ERC20: transfer amount exceeds balance.')
+		                    await expectRevert(this.token.transfer(whitelisted1, (this.mint + this.transfer), { from: whitelisted }), 'SafeMath: subtraction overflow.')
 							assert.equal(await this.token.balanceOf(whitelisted), this.mint)						
 						})
 					})
@@ -513,7 +513,7 @@ contract('EdgeToken', function ([admin, operator, system, whitelisted, whitelist
 								await expectRevert(this.token.decreaseAllowance(ZERO_ADDRESS, this.approvalModification, { from: whitelisted1 }), 'Whitelist: account is not whitelisted')								
 							});	
 							it('revert overflow transferFrom', async function () {
-								await expectRevert(this.token.transferFrom(whitelisted1, whitelisted2, this.overflow, { from: whitelisted }), 'ERC20: transfer amount exceeds balance.')								
+								await expectRevert(this.token.transferFrom(whitelisted1, whitelisted2, this.overflow, { from: whitelisted }), 'SafeMath: subtraction overflow.')								
 							});
 							describe('paused decreaseAllowance', function () {
 								beforeEach(async function () {
@@ -569,7 +569,7 @@ contract('EdgeToken', function ([admin, operator, system, whitelisted, whitelist
 								});	
 							});
 							it('revert overflow transferFrom', async function () {
-								await expectRevert(this.token.transferFrom(whitelisted1, whitelisted2, this.overflow, { from: whitelisted }), 'ERC20: transfer amount exceeds balance.')								
+								await expectRevert(this.token.transferFrom(whitelisted1, whitelisted2, this.overflow, { from: whitelisted }), 'SafeMath: subtraction overflow.')								
 							});
 							describe('paused transferFrom', async function () {
 								beforeEach(async function () {
@@ -599,7 +599,7 @@ contract('EdgeToken', function ([admin, operator, system, whitelisted, whitelist
 			                	await expectRevert(this.token.burnFrom(whitelisted, this.approve, { from: frozen }), 'Freezable: account is frozen')
 							})
 							it('revert overflow burnFrom', async function () {
-			                	await expectRevert(this.token.burnFrom(whitelisted1, this.overflow, { from: whitelisted }), 'ERC20: burn amount exceeds balance.')								
+			                	await expectRevert(this.token.burnFrom(whitelisted1, this.overflow, { from: whitelisted }), 'SafeMath: subtraction overflow.')								
 							});
 							it('revert empty address ', async function () {
 			                	await expectRevert(this.token.burnFrom(ZERO_ADDRESS, this.overflow, { from: whitelisted }), 'Whitelist: account is not whitelisted')								
