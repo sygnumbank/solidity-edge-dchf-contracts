@@ -31,7 +31,7 @@ yarn coverage
 1. Create a new file `.env` in the project's root directory. Use the example file [.env.example](./.env.example) as a template.
 
 2. Adjust the parameters:
-* `MNENOMIC` - seed phrase (metamask's recovery words)
+* `MNENOMIC` : seed phrase (metamask's recovery words)
 * `INFURA_API_KEY`: API key from Infura (infura.io)
 * `PROXY_ADMIN`: Address of administrator that can upgrade the token contract to a new version (to new logic) 
 * `TOKEN_ADMIN`: Address of the administrator who manages EDGE system. Do not use the same address for `PROXY_ADMIN` and `TOKEN_ADMIN`.
