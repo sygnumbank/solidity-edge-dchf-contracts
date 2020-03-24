@@ -62,7 +62,7 @@ This will run all deployment scripts located within the project's migrations dir
 If the logic for edge token implementation contract should be changed when it is already in production (main network) with the condition that address of EdgeTokenProxy and storage should remain the same - the edge token should be upgraded in such steps:
 
 
-1.  develop the new contract (f.e. EdgeTokenV1) which extends(!very important) previous implementation of EdgeToken contract (the example is /contracts/EdgeToken/EdgeTokenV1.sol)
+1.  develop the new contract (e.g. EdgeTokenV1) which extends(!very important) previous implementation of EdgeToken contract (the example is `/contracts/EdgeToken/EdgeTokenV1.sol`)
 
 2.  deploy new version of EdgeToken contract and call upgradeTo(newImplementationAddress) function in proxy contract to set up new address of edgeToken logic. The example of script for upgrading EdgeToken to new logic (should be initiated by proxyAdmin):
 
