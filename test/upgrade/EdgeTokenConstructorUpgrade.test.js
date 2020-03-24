@@ -117,6 +117,15 @@ contract('EdgeTokenProxy', function ([owner, admin, operator, proxyAdmin, proxyA
             it('decimals updated', async function () {
                 assert.equal(await this.token.decimals(), 2)
             })
+            describe('constructor values initialized', function () {
+                beforeEach(async function () {
+                    await this.token.toggleWhitelist(whitelisted, true, { from: operator })
+                    await this.token.mint(whitelisted, 100, { from: operator })
+                });
+                it('ensure mint balance updated', async function () {
+                    assert.equal(await this.token.balanceOf(whitelisted), 100)
+                });
+            })
          })
         })
     })
