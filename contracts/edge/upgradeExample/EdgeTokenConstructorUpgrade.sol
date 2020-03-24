@@ -1,8 +1,11 @@
 /**
  * @title EdgeTokenConstructor
  * @author Connor Howe <connor.howe@sygnum.com> 
- * @dev Standard contract to display upgradability usability.  This is an example contract,
-*      that will not be used in production, to show how upgradability will be utilized.
+ * @dev This contract will be used in the first version of upgrading the EdgeToken to mitigate
+ *      variables initialized in EdgeToken.sol constructor '_name, _symbol, _decimals' that are
+ *      not initialized inside of EdgeTokenProxy.sol.  Additionally, as '_name, symbol, _decimals'
+ *      were declared private, the getter functions 'name(), symbol(), decimals()' required to be
+ *      overloaded to point to the correct/new/overloaded variables.
 */
 pragma solidity 0.5.0;
 
