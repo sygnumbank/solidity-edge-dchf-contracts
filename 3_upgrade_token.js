@@ -10,7 +10,7 @@ module.exports = function(deployer, network, accounts) {
 
     
     if( network == "ropsten" || network == "main") {
-        proxyAdmin= process.env.PROXY_ADMIN; //ropsten
+        proxyAdmin = process.env.PROXY_ADMIN; //ropsten
     } else {
         proxyAdmin = accounts[1]; //dev
     }
