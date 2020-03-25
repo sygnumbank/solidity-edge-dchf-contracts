@@ -1,0 +1,39 @@
+{
+  "name": "@sygnum/solidity-edge-dchf-contracts",
+  "version": "1.0.0",
+  "description": "Solidity DCHF contracts used across the Sygnum platform.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:sygnum/blockchain-engineering/ethereum/solidity-edge-contracts/solidity-edge-dchf-contracts.git"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart",
+    "contracts",
+    "security",
+    "sygnum"
+  ],
+  "author": "Connor Howe <connor.howe@sygnum.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@sygnum/solidity-base-contracts": "^0.0.4",
+    "@truffle/contract": "^4.1.11",
+    "chai": "4.2.0",
+    "dotenv": "8.1.0",
+    "ethereumjs-abi": "0.6.7",
+    "ganache-cli": "6.6.0",
+    "openzeppelin-solidity": "2.3.0",
+    "openzeppelin-test-helpers": "0.4.3",
+    "sol2uml": "1.1.12",
+    "truffle": "5.0.34",
+    "truffle-events": "0.0.7",
+    "truffle-flattener": "1.4.2",
+    "truffle-hdwallet-provider": "1.0.10",
+    "zos": "2.3.1"
+  },
+  "publishConfig": {
+    "@sygnum:registry": "https://gitlab.com/api/v4/projects/15856546/packages/npm/"
+  }
+}
