@@ -125,6 +125,25 @@ contract('EdgeTokenProxy', function ([owner, admin, operator, proxyAdmin, proxyA
                 it('ensure mint balance updated', async function () {
                     assert.equal(await this.token.balanceOf(whitelisted), 100)
                 });
+
+                describe('old versions', function () {
+                    beforeEach(async function () {
+                        this.token = await EdgeToken.at(this.proxy.address)
+                        await this.token.mint(whitelisted, 100, { from: operator })                            
+                    });
+                    it('old version works', async function () {
+                        assert.equal(await this.token.balanceOf(whitelisted), 200)
+                    });
+                    describe('then switch to new versions', function () {
+                        beforeEach(async function () {
+                            this.token = await EdgeTokenConstructorUpgrade.at(this.proxy.address)
+                            await this.token.mint(whitelisted, 100, { from: operator })                            
+                        });
+                        it('old version works', async function () {
+                            assert.equal(await this.token.balanceOf(whitelisted), 300)
+                        });
+                });
+            })
             })
          })
         })
