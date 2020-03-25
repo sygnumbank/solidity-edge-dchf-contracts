@@ -125,7 +125,6 @@ contract('EdgeTokenProxy', function ([owner, admin, operator, proxyAdmin, proxyA
                 it('ensure mint balance updated', async function () {
                     assert.equal(await this.token.balanceOf(whitelisted), 100)
                 });
-
                 describe('old versions', function () {
                     beforeEach(async function () {
                         this.token = await EdgeToken.at(this.proxy.address)
