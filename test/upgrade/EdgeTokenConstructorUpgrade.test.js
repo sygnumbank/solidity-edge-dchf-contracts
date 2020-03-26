@@ -138,7 +138,7 @@ contract('EdgeTokenProxy', function ([owner, admin, operator, proxyAdmin, proxyA
                             this.token = await EdgeTokenConstructorUpgrade.at(this.proxy.address)
                             await this.token.mint(whitelisted, 100, { from: operator })                            
                         });
-                        it('old version works', async function () {
+                        it('new version works', async function () {
                             assert.equal(await this.token.balanceOf(whitelisted), 300)
                         });
                 });
