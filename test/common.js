@@ -11,6 +11,7 @@ const BigNumber = ethers.utils.bigNumberify
 const EdgeToken = artifacts.require("EdgeToken")
 const EdgeTokenProxy = artifacts.require("EdgeTokenProxy")
 const EdgeTokenV1 = artifacts.require("EdgeTokenV1")
+const EdgeTokenConstructorUpgrade = artifacts.require("EdgeTokenConstructorUpgrade")
 
 const newBool = true
 const newUint = 5
@@ -31,6 +32,7 @@ module.exports = {
     EdgeToken,
     EdgeTokenProxy,
     EdgeTokenV1,
+    EdgeTokenConstructorUpgrade,
     TWO_ADDRESSES,
     newBool,
     newUint

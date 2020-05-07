@@ -1,6 +1,6 @@
 {
   "name": "@sygnum/solidity-edge-dchf-contracts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Solidity DCHF contracts used across the Sygnum platform.",
   "main": "index.js",
   "repository": {
