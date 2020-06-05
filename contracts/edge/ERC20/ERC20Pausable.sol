@@ -1,4 +1,4 @@
-pragma solidity 0.5.0;
+pragma solidity 0.5.12;
 
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "@sygnum/solidity-base-contracts/contracts/helpers/Pausable.sol";

@@ -4,7 +4,7 @@
  * @dev Standard contract to display upgradability usability.  This is an example contract,
 *      that will not be used in production, to show how upgradability will be utilized.
 */
-pragma solidity 0.5.0;
+pragma solidity 0.5.12;
 
 import "../EdgeToken.sol";
 

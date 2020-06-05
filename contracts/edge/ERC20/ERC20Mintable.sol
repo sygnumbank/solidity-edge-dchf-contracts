@@ -1,7 +1,7 @@
-pragma solidity 0.5.0;
+pragma solidity 0.5.12;
 
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
-import "@sygnum/solidity-base-contracts/contracts/role/Operatorable.sol";
+import "@sygnum/solidity-base-contracts/contracts/role/base/Operatorable.sol";
 
 
 contract ERC20Mintable is ERC20, Operatorable {

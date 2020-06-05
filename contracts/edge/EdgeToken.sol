@@ -6,7 +6,7 @@
  *      to execute.  Addresses can be frozen, and funds from
  *      particular addresses can be confiscated.
  */
-pragma solidity 0.5.0;
+pragma solidity 0.5.12;
 
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
@@ -90,8 +90,8 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
         public
         onlyOperator
         whenNotPaused
-        onlyWhitelisted(_receiver)
-        onlyWhitelisted(_confiscatee)
+        whenWhitelisted(_receiver)
+        whenWhitelisted(_confiscatee)
     {
         super._transfer(_confiscatee, _receiver, _amount);
      }
