@@ -2,20 +2,19 @@ const { BaseOperators, Whitelist, THREE_HUNDRED_ADDRESS, THREE_HUNDRED_NUMBERS, 
 
 const { expectRevert, EdgeToken, ZERO_ADDRESS, TWO_ADDRESSES } = require('../common')
 
-contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelisted1, whitelisted2, frozen, frozen1, notWhitelisted, attacker]) => {
+contract('EdgeToken', ([admin, operator, system, whitelisted, whitelisted1, whitelisted2, frozen, frozen1, notWhitelisted, attacker]) => {
 	beforeEach(async () => {
 		this.baseOperators = await BaseOperators.new(admin, { from: admin })
 		this.token = await EdgeToken.new({ from: admin })
 		this.whitelist = await Whitelist.new({ from: admin })
 
-		await this.whitelist.initialize(this.baseOperators.address)
-		await this.token.initialize(this.baseOperators.address, this.whitelist.address)
+		await this.whitelist.initialize(this.baseOperators.address, { from: admin })
+		await this.token.initialize(this.baseOperators.address, this.whitelist.address, { from: admin })
 	})
 	context('Role set-up', () => {
 		beforeEach(async () => {
 			await this.baseOperators.addOperator(operator, { from: admin })
 			await this.baseOperators.addSystem(system, { from: admin })
-			await this.baseOperators.addMultisig(multisig, { from: admin })
 		})
 		describe('Whitelist set-up', () => {
 			beforeEach(async () => {
@@ -28,10 +27,10 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 					describe('unwhitelisted', () => {
 						describe('non functional', () => {
 							it('revert operator mint for unwhitelisted', async () => {
-								await expectRevert(this.token.mint(notWhitelisted, MINT, { from: operator }), 'Whitelist: account is not whitelisted')
+								await expectRevert(this.token.mint(notWhitelisted, MINT, { from: operator }), 'Whitelistable: account is not whitelisted')
 							})
 							it('revert system mint for unwhitelisted', async () => {
-								await expectRevert(this.token.mint(notWhitelisted, MINT, { from: system }), 'Whitelist: account is not whitelisted')
+								await expectRevert(this.token.mint(notWhitelisted, MINT, { from: system }), 'Whitelistable: account is not whitelisted')
 							})
 						})
 					})
@@ -44,7 +43,7 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 							await expectRevert(this.token.mint(whitelisted, 0, { from: operator }), 'ERC20Mintable: amount has to be greater than 0')
 						})						
 						it('revert mint empty address', async () => {
-							await expectRevert(this.token.mint(ZERO_ADDRESS, MINT, { from: operator }), 'Whitelist: account is not whitelisted.') // Cannot add to whitelist before minting
+							await expectRevert(this.token.mint(ZERO_ADDRESS, MINT, { from: operator }), 'Whitelistable: account is not whitelisted.') // Cannot add to whitelist before minting
 						})						
 						it('revert attacker mint', async () => {
 							await expectRevert(this.token.mint(whitelisted, MINT, { from: attacker }), 'Operatorable: caller does not have the operator role nor system.')
@@ -96,7 +95,7 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 						})
 						describe('paused', () => {
 							beforeEach(async () => {
-								await this.token.pause({ from: multisig })
+								await this.token.pause({ from: operator })
 							});
 							describe('non-functional', async () => {
 								it('revert minting', async () => {
@@ -106,7 +105,7 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 							describe('functional', async () => {
 								describe('unpaused then mint', () => {
 									beforeEach(async () => {
-										await this.token.unpause({ from: multisig })
+										await this.token.unpause({ from: operator })
 									});
 									describe('can mint again', () => {
 										beforeEach(async () => {
@@ -153,7 +152,6 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 						});
 					})
 				}) // end of batch
-
 			}) // End of mint
 			context('burnable', () => {
 				beforeEach(async () => {
@@ -164,13 +162,13 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 						describe('whitelisted/unwhitelisted', () => {
 							describe('non-functional', () => {
 								it('revert unwhitelisted', async () => {
-									await expectRevert(this.token.burnFor(notWhitelisted, BURN, { from: operator }), 'Whitelist: account is not whitelisted')
+									await expectRevert(this.token.burnFor(notWhitelisted, BURN, { from: operator }), 'Whitelistable: account is not whitelisted')
 								})
 								it('revert from attacker', async () => {
 									await expectRevert(this.token.burnFor(whitelisted, BURN, { from: attacker }), 'Operatorable: caller does not have the operator role.')
 								})
 								it('revert for empty address', async () => {
-									await expectRevert(this.token.burnFor(ZERO_ADDRESS, BURN, { from: operator }), 'Whitelist: account is not whitelisted')
+									await expectRevert(this.token.burnFor(ZERO_ADDRESS, BURN, { from: operator }), 'Whitelistable: account is not whitelisted')
 								})
 								it('revert for over burn balance', async () => {
 									await expectRevert(this.token.burnFor(whitelisted, this.overflow, { from: operator }), 'Reason given: SafeMath: subtraction overflow.')
@@ -182,10 +180,10 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 							describe('functional', () => {
 								describe('from operator', () => {
 									beforeEach(async () => {
-										await this.token.burnFor(whitelisted, BURN, {from: operator })
+										await this.token.burnFor(whitelisted, BURN, { from: operator })
 									});
 									it('balance updated', async () => {
-										assert.equal(await this.token.balanceOf(whitelisted), BURN)
+										assert.equal(await this.token.balanceOf(whitelisted), (MINT - BURN))
 									});
 								});
 							})
@@ -209,12 +207,12 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 						})
 						describe('paused', () => {
 							beforeEach(async () => {
-								await this.token.pause({ from: multisig })
+								await this.token.pause({ from: operator })
 							})
 							describe('non-functional', () => {
-								describe('revert multisig burnFor', () => {
+								describe('revert operator burnFor', () => {
 									beforeEach(async () => {
-										await expectRevert(this.token.burnFor(frozen, BURN, { from: multisig }),'Pausable: paused.')
+										await expectRevert(this.token.burnFor(frozen, BURN, { from: operator }),'Pausable: paused.')
 									});
 								});
 							})
@@ -260,14 +258,14 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 							await expectRevert(this.token.burn(this.overflow, { from: whitelisted }), 'SafeMath: subtraction overflow.')
 						})	
 						it('revert for notWhitelisted', async () => {
-							await expectRevert(this.token.burn(BURN, { from: notWhitelisted }), 'Whitelist: account is not whitelisted')
+							await expectRevert(this.token.burn(BURN, { from: notWhitelisted }), 'Whitelistable: account is not whitelisted')
 						})	
 						it('revert for frozen whitelisted ', async () => {
 							await expectRevert(this.token.burn(BURN, { from: frozen }), 'EdgeToken: Account must not be frozen')
 						})
 						describe('paused', () => {
 							beforeEach(async () => {
-								await this.token.pause({ from: multisig })
+								await this.token.pause({ from: operator })
 							})
 							it('revert when paused', async () => {
 								await expectRevert(this.token.burn(BURN, { from: whitelisted }), 'Pausable: paused')
@@ -289,16 +287,16 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 			context('confiscate', () => {
 				beforeEach(async () => {
 					await this.token.batchMint([ whitelisted, whitelisted1, frozen, frozen1 ], [ MINT, MINT, MINT, MINT], { from: operator})
-					this.confiscate = 50
+					this.confiscate = 50 // TODO constant import
 				})
 				describe('unwhitelisted', async () => {
 					describe('non-batch', async () => {
 						describe('non-functional', async () => {
 							it('revert confiscate from nonwhitelisted address to whitelisted', async () => {
-								await expectRevert(this.token.confiscate(notWhitelisted, whitelisted, this.confiscate, { from: operator }), 'Whitelist: account is not whitelisted')
+								await expectRevert(this.token.confiscate(notWhitelisted, whitelisted, this.confiscate, { from: operator }), 'Whitelistable: account is not whitelisted')
 							});
 							it('revert confiscate from whitelisted address to nonwhitelisted', async () => {
-								await expectRevert(this.token.confiscate(whitelisted, notWhitelisted, this.confiscate, { from: operator }), 'Whitelist: account is not whitelisted')
+								await expectRevert(this.token.confiscate(whitelisted, notWhitelisted, this.confiscate, { from: operator }), 'Whitelistable: account is not whitelisted')
 							});
 							it('revert confiscate from non-operator', async () => {
 								await expectRevert(this.token.confiscate(whitelisted, whitelisted2, this.confiscate, { from: admin }), 'Operatorable: caller does not have the operator role')
@@ -308,7 +306,7 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 							});	
 							describe('when paused', async () => {0
 								beforeEach(async () => {
-									await this.token.pause({ from: multisig })
+									await this.token.pause({ from: operator })
 								});
 								it('revert confiscate when paused', async () => {
 									await expectRevert(this.token.confiscate(whitelisted, whitelisted2, this.confiscate, { from: operator }), 'Pausable: paused')
@@ -366,14 +364,14 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 				describe('unwhitelisted', async () => {
 					describe('non-functional', async () => {
 						it('revert whitelisted transfer to notWhitelisted', async () => {
-							await expectRevert(this.token.transfer(notWhitelisted, TRANSFER, { from: whitelisted }), 'Whitelist: account is not whitelisted')
+							await expectRevert(this.token.transfer(notWhitelisted, TRANSFER, { from: whitelisted }), 'Whitelistable: account is not whitelisted')
 						})
 					})
 				})
 				describe('whitelisted', async () => {
 					describe('non-functional', async () => {
 						it('revert transfer to empty address', async () => {
-							await expectRevert(this.token.transfer(ZERO_ADDRESS, TRANSFER, { from: whitelisted }), 'Whitelist: account is not whitelisted')
+							await expectRevert(this.token.transfer(ZERO_ADDRESS, TRANSFER, { from: whitelisted }), 'Whitelistable: account is not whitelisted')
 						})
 						it('revert transfer more than balance', async () => {
 							await expectRevert(this.token.transfer(whitelisted1, (MINT + TRANSFER), { from: whitelisted }), 'SafeMath: subtraction overflow.')
@@ -419,7 +417,7 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 				})
 				describe('pause', async () => {
 					beforeEach(async () => {
-						await this.token.pause({from: multisig})
+						await this.token.pause({from: operator})
 					})
 					it('revert all transfers', async () => {
 						await expectRevert(this.token.transfer(whitelisted1, TRANSFER, { from: whitelisted }), 'Pausable: paused')
@@ -429,7 +427,7 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 			context('approval/allowances/transferFrom/burnFrom', () => {
 				beforeEach(async () => {
 					await this.token.batchMint([ whitelisted, frozen, frozen1 ], [ MINT, MINT, MINT ], { from: operator })
-					this.approve = 50
+					this.approve = 50 // TODO constant import
 				})
 				describe('approval', async () => {
 					beforeEach(() => {
@@ -438,13 +436,13 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 					describe('non-functional', () => {
 						describe('non-whitelisted', async () => {
 							it('revert notWhitelisted approval to whitelisted', async () => {
-								await expectRevert(this.token.approve(whitelisted, this.approve, { from: notWhitelisted }), 'Whitelist: account is not whitelisted')
+								await expectRevert(this.token.approve(whitelisted, this.approve, { from: notWhitelisted }), 'Whitelistable: account is not whitelisted')
 							})
 							it('revert whitelisted approval to notWhitelisted', async () => {
-								await expectRevert(this.token.approve(notWhitelisted, this.approve, { from: whitelisted }), 'Whitelist: account is not whitelisted')
+								await expectRevert(this.token.approve(notWhitelisted, this.approve, { from: whitelisted }), 'Whitelistable: account is not whitelisted')
 							})		
 							it('revert whitelisted approval to notWhitelisted', async () => {
-								await expectRevert(this.token.approve(notWhitelisted, this.approve, { from: whitelisted }), 'Whitelist: account is not whitelisted')
+								await expectRevert(this.token.approve(notWhitelisted, this.approve, { from: whitelisted }), 'Whitelistable: account is not whitelisted')
 							})
 						});
 						describe('frozen', async () => {
@@ -459,11 +457,11 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 							})
 						})
 						it('revert empty address spender', async () => {
-							await expectRevert(this.token.approve(ZERO_ADDRESS, this.approve, {from: whitelisted}), 'Whitelist: account is not whitelisted')
+							await expectRevert(this.token.approve(ZERO_ADDRESS, this.approve, {from: whitelisted}), 'Whitelistable: account is not whitelisted')
 						});
 						describe('paused approval', () => {
 							beforeEach(async () => {
-								await this.token.pause({ from: multisig })
+								await this.token.pause({ from: operator })
 							});
 							it('revert approve when paused', async () => {
 								await expectRevert(this.token.approve(whitelisted2, this.approve, { from: whitelisted }), 'Pausable: paused')	
@@ -487,10 +485,10 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 						describe('non-functional', () => {
 							describe('non-whitelisted', async () => {
 								it('revert notWhitelisted increase allowance to whitelisted', async () => {
-									await expectRevert(this.token.increaseAllowance(whitelisted, this.approve, { from: notWhitelisted }), 'Whitelist: account is not whitelisted')
+									await expectRevert(this.token.increaseAllowance(whitelisted, this.approve, { from: notWhitelisted }), 'Whitelistable: account is not whitelisted')
 								})
 								it('revert whitelisted increase allowance to notWhitelisted', async () => {
-									await expectRevert(this.token.increaseAllowance(notWhitelisted, this.approve, { from: whitelisted }), 'Whitelist: account is not whitelisted')
+									await expectRevert(this.token.increaseAllowance(notWhitelisted, this.approve, { from: whitelisted }), 'Whitelistable: account is not whitelisted')
 								})
 							});
 							describe('frozen', async () => {
@@ -505,11 +503,11 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 								})
 							})
 							it('revert empty address', async () => {
-								await expectRevert(this.token.increaseAllowance(ZERO_ADDRESS, this.approvalModification, { from: whitelisted1 }), 'Whitelist: account is not whitelisted')
+								await expectRevert(this.token.increaseAllowance(ZERO_ADDRESS, this.approvalModification, { from: whitelisted1 }), 'Whitelistable: account is not whitelisted')
 							});
 							describe('paused increaseAllowance', () => {
 								beforeEach(async () => {
-									await this.token.pause({ from: multisig })
+									await this.token.pause({ from: operator })
 								});
 								it('revert increaseAllowance when paused', async () => {
 									await expectRevert(this.token.increaseAllowance(whitelisted, this.approvalModification, { from: whitelisted1 }), 'Pausable: paused')	
@@ -534,10 +532,10 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 						describe('non-functional', () => {
 							describe('non-whitelisted', async () => {
 								it('revert notWhitelisted decrease allowance to whitelisted', async () => {
-									await expectRevert(this.token.decreaseAllowance(whitelisted, this.approve, { from: notWhitelisted }), 'Whitelist: account is not whitelisted')
+									await expectRevert(this.token.decreaseAllowance(whitelisted, this.approve, { from: notWhitelisted }), 'Whitelistable: account is not whitelisted')
 								})
 								it('revert whitelisted decrease allowance to notWhitelisted', async () => {
-									await expectRevert(this.token.decreaseAllowance(notWhitelisted, this.approve, { from: whitelisted }), 'Whitelist: account is not whitelisted')
+									await expectRevert(this.token.decreaseAllowance(notWhitelisted, this.approve, { from: whitelisted }), 'Whitelistable: account is not whitelisted')
 								})
 							});
 							describe('frozen', async () => {
@@ -552,14 +550,14 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 								})
 							})
 							it('revert empty address', async () => {
-								await expectRevert(this.token.decreaseAllowance(ZERO_ADDRESS, this.approvalModification, { from: whitelisted1 }), 'Whitelist: account is not whitelisted')
+								await expectRevert(this.token.decreaseAllowance(ZERO_ADDRESS, this.approvalModification, { from: whitelisted1 }), 'Whitelistable: account is not whitelisted')
 							});
 							it('revert overflow transferFrom', async () => {
 								await expectRevert(this.token.transferFrom(whitelisted1, whitelisted2, this.overflow, { from: whitelisted }), 'SafeMath: subtraction overflow.')
 							});
 							describe('paused decreaseAllowance', () => {
 								beforeEach(async () => {
-									await this.token.pause({ from: multisig })
+									await this.token.pause({ from: operator })
 								});
 								it('revert decreaseAllowance when paused', async () => {
 									await expectRevert(this.token.decreaseAllowance(whitelisted1, this.approvalModification, { from: whitelisted }), 'Pausable: paused')	
@@ -603,21 +601,21 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 										});
 										describe('non whitelisted', async () => {
 											it('revert nonwhitelisted transferFrom to whitelisted', async () => {
-												await expectRevert(this.token.transferFrom(notWhitelisted, whitelisted2, this.approve, { from: whitelisted }), 'Whitelist: account is not whitelisted')
+												await expectRevert(this.token.transferFrom(notWhitelisted, whitelisted2, this.approve, { from: whitelisted }), 'Whitelistable: account is not whitelisted')
 											})
 											it('revert nonwhitelisted transferFrom to whitelisted', async () => {
-												await expectRevert(this.token.transferFrom(whitelisted1, whitelisted, this.approve, { from: notWhitelisted }), 'Whitelist: account is not whitelisted')
+												await expectRevert(this.token.transferFrom(whitelisted1, whitelisted, this.approve, { from: notWhitelisted }), 'Whitelistable: account is not whitelisted')
 											})
 											it('revert nonwhitelisted transferFrom to whitelisted', async () => {
-												await expectRevert(this.token.transferFrom(whitelisted, whitelisted1, this.approve, { from: notWhitelisted }), 'Whitelist: account is not whitelisted')
+												await expectRevert(this.token.transferFrom(whitelisted, whitelisted1, this.approve, { from: notWhitelisted }), 'Whitelistable: account is not whitelisted')
 											})
 										});
 										describe('empty', async () => {
 											it('revert empty address sender', async () => {
-												await expectRevert(this.token.transferFrom(ZERO_ADDRESS, whitelisted2, this.approve, { from: whitelisted }), 'Whitelist: account is not whitelisted')
+												await expectRevert(this.token.transferFrom(ZERO_ADDRESS, whitelisted2, this.approve, { from: whitelisted }), 'Whitelistable: account is not whitelisted')
 											});
 											it('revert empty address recipient', async () => {
-												await expectRevert(this.token.transferFrom(whitelisted1, ZERO_ADDRESS, this.approve, { from: whitelisted }), 'Whitelist: account is not whitelisted')
+												await expectRevert(this.token.transferFrom(whitelisted1, ZERO_ADDRESS, this.approve, { from: whitelisted }), 'Whitelistable: account is not whitelisted')
 											});
 										});
 										it('revert overflow transferFrom', async () => {
@@ -625,7 +623,7 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 										});
 										describe('paused transferFrom', async () => {
 											beforeEach(async () => {
-												await this.token.pause({ from: multisig })
+												await this.token.pause({ from: operator })
 											});
 											it('revert all when paused', async () => {
 												await expectRevert(this.token.transferFrom(whitelisted1, whitelisted2, this.approve, { from: whitelisted }), 'Pausable: paused')
@@ -646,7 +644,7 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 								describe('burnFrom', () => {
 									describe('non-functional', () => {
 										it('revert nonwhitelisted burnFrom to whitelisted', async () => {
-											await expectRevert(this.token.burnFrom(whitelisted, BURN, { from: notWhitelisted }), 'Whitelist: account is not whitelisted')
+											await expectRevert(this.token.burnFrom(whitelisted, BURN, { from: notWhitelisted }), 'Whitelistable: account is not whitelisted')
 										})
 										it('revert whitelisted burnFrom to frozen', async () => {
 											await expectRevert(this.token.burnFrom(frozen, BURN, { from: whitelisted }), 'Freezable: account is frozen')
@@ -658,11 +656,11 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 											await expectRevert(this.token.burnFrom(whitelisted1, this.overflow, { from: whitelisted }), 'SafeMath: subtraction overflow.')
 										});
 										it('revert empty address ', async () => {
-											await expectRevert(this.token.burnFrom(ZERO_ADDRESS, this.overflow, { from: whitelisted }), 'Whitelist: account is not whitelisted')
+											await expectRevert(this.token.burnFrom(ZERO_ADDRESS, this.overflow, { from: whitelisted }), 'Whitelistable: account is not whitelisted')
 										});
 										describe('paused burnFrom', async () => {
 											beforeEach(async () => {
-												await this.token.pause({ from: multisig })
+												await this.token.pause({ from: operator })
 											});
 											it('revert all when paused', async () => {
 												await expectRevert(this.token.burnFrom(whitelisted1, BURN, { from: whitelisted }), 'Pausable: paused')
@@ -675,10 +673,7 @@ contract('EdgeToken', ([admin, operator, system, multisig, whitelisted, whitelis
 												await this.token.burnFrom(whitelisted1, BURN, { from: whitelisted })
 											});
 											it('allowance updated', async () => {
-												assert.equal(await this.token.allowance(whitelisted1, whitelisted), 0)
-											});
-											it('balance updated', async () => {
-												assert.equal(await this.token.balanceOf(whitelisted1), (MINT - BURN))
+												assert.equal(await this.token.allowance(whitelisted1, whitelisted), ( this.approve - BURN ))
 											});
 										});
 									})
