@@ -1,46 +1,64 @@
-const { assertRevert, EdgeTokenV1, newBool, newUint } = require('../common')
-const { BaseOperators } = require('@sygnum/solidity-base-contracts')
+const { expectRevert, EdgeTokenV1, newBool, newUint, ZERO_ADDRESS } = require('../common')
+const { BaseOperators, Whitelist } = require('@sygnum/solidity-base-contracts')
 
 
-contract('EdgeTokenV1', function ([admin, operator, system, newAddress]) {
-    beforeEach(async function () {
+contract('EdgeTokenV1', ([admin, newAddress]) => {
+    beforeEach(async () => {
         this.baseOperators = await BaseOperators.new(admin, {from: admin})
-        this.baseOperators.addOperator(operator, {from: admin})
-        this.baseOperators.addSystem(system, {from: admin})
-    })
-	context('when not initialized', function () {
-		beforeEach(async function () {
-	        this.token = await EdgeTokenV1.new()
-  			})
-			it('can call re-initialization sub function', async function () {
-		         await this.token.initV1(newBool, newAddress, newUint)				
-		         it('variable initialization success', async function (){
-			    	assert.equal(await this.token.newBool(), newBool)
-			    	assert.equal(await this.token.newAddress(), newAddress)
-			    	assert.equal(await this.token.newUint(), newUint)		         	
-		         })
+		this.token = await EdgeTokenV1.new()
+	})
+	context('when not initialized', () => {
+		describe('new variables not initialized', () => {
+			it('bool not initialized', async () => {
+				assert.equal(await this.token.newBool(), false)
+			});
+			it('address not initialized', async () => {
+				assert.equal(await this.token.newAddress(), ZERO_ADDRESS)
+			});
+			it('uint not initialized', async () => {
+				assert.equal(await this.token.newUint(), 0)
+			});
+		});
+		describe('initialize functional operation', () => {
+			beforeEach(async () => {
+				await this.token.initV1(newBool, newAddress, newUint)
+			});
+			it('bool initialized', async () => {
+				assert.equal(await this.token.newBool(), newBool)
+			});
+			it('address initialized', async () => {
+				assert.equal(await this.token.newAddress(), newAddress)
+			});
+			it('uint initialized', async () => {
+				assert.equal(await this.token.newUint(), newUint)
+			});
+		});
+	})
+	context('when initialized', () => {
+		beforeEach(async () => {
+			await this.token.initialize(this.baseOperators.address, newBool, newAddress, newUint)
+		})
+		it('initialization bool success', async () => {
+			assert.equal(await this.token.initializedV1(), true)
+		})
+		describe('new variables initialized', () => {
+			it('bool initialized', async () => {
+				assert.equal(await this.token.newBool(), newBool)
+			});
+			it('address initialized', async () => {
+				assert.equal(await this.token.newAddress(), newAddress)
+			});
+			it('uint initialized', async () => {
+				assert.equal(await this.token.newUint(), newUint)
+			});
+		});
+		describe('non-functional', () => {
+			it('reverts when re-initializating', async () => {
+					await expectRevert(this.token.initialize(this.baseOperators.address, newBool, newAddress, newUint), 'Initializable: Contract instance has already been initialized')
 			})
-			it('has not initialized', async function () {
-		         assert.equal(await this.token.newBool(), false)
-	        })
-			context('when initialized', function () {
-				 beforeEach(async function () {
-	 		        await this.token.initialize(this.baseOperators.address, newBool, newAddress, newUint)
-			     })
-				it('initialization library success', async function () {
-			        assert.equal(await this.token.initializedV1(), true)
-			    })
-			    it('initialization variable success', async function () {
-			    	assert.equal(await this.token.newBool(), newBool)
-			    	assert.equal(await this.token.newAddress(), newAddress)
-			    	assert.equal(await this.token.newUint(), newUint)
-			    })
-			    it('reverts when re-initializating', async function () {
-			         await assertRevert(this.token.initialize(this.baseOperators.address, newBool, newAddress, newUint))
-			    })
-			    it('reverts when calling re-initialization sub function', async function (){
-			         await assertRevert(this.token.initV1(newBool, newAddress, newUint))
-			    })
+			it('reverts when calling re-initialization sub function', async () =>{
+					await expectRevert(this.token.initV1(newBool, newAddress, newUint), 'EdgeTokenV1: already initialized')
 			})
-	  })
+		});
+	})
 })

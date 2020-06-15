@@ -39,9 +39,6 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
     // function initialize(address _baseOperators, address _whitelist) public initializer {
     //     super.initialize(_baseOperators, _whitelist);
     // }
-
-
-
     /**
     * @dev Burn.
     * @param _amount Amount of tokens to burn.
