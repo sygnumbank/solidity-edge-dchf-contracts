@@ -11,12 +11,11 @@ pragma solidity 0.5.12;
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
 
-import "./ERC20/ERC20Whitelist.sol";
-import "./ERC20/ERC20Pausable.sol";
-import "./ERC20/ERC20Freezable.sol";
-import "./ERC20/ERC20Mintable.sol";
-import "./ERC20/ERC20Burnable.sol";
-
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Whitelist.sol";
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Pausable.sol";
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Freezable.sol";
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Mintable.sol";
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Burnable.sol";
 import "@sygnum/solidity-base-contracts/contracts/helpers/Initializable.sol";
 
 
@@ -36,6 +35,12 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
     function initialize(address _baseOperators) public initializer {
         super.initialize(_baseOperators);
     }
+
+    // function initialize(address _baseOperators, address _whitelist) public initializer {
+    //     super.initialize(_baseOperators, _whitelist);
+    // }
+
+
 
     /**
     * @dev Burn.
