@@ -2,8 +2,6 @@ const { BaseOperators, Whitelist, MINT } = require('@sygnum/solidity-base-contra
 
 const { getAdmin, getImplementation, encodeCall, expectEvent, expectRevert, assertRevert, EdgeToken, EdgeTokenV1, EdgeTokenProxy, newBool, newUint, ZERO_ADDRESS } = require('../common')
 
-
-
 contract('EdgeTokenProxy', ([owner, admin, operator, proxyAdmin, proxyAdminNew, attacker, whitelisted, newAddress]) => {
     beforeEach(async () => {
         this.baseOperators = await BaseOperators.new(admin, { from:admin })

@@ -1,5 +1,5 @@
 const { getAdmin, getImplementation, encodeCall, expectEvent, expectRevert, assertRevert, EdgeToken, EdgeTokenConstructorUpgrade, EdgeTokenProxy, ZERO_ADDRESS } = require('../common')
-const { BaseOperators } = require('@sygnum/solidity-base-contracts')
+const { BaseOperators, Whitelist } = require('@sygnum/solidity-base-contracts')
 
 
 contract('EdgeTokenConstructorUpgrade', ([owner, admin, operator, proxyAdmin, proxyAdminNew, attacker, whitelisted, newAddress]) => {
@@ -8,10 +8,13 @@ contract('EdgeTokenConstructorUpgrade', ([owner, admin, operator, proxyAdmin, pr
 
         await this.baseOperators.addOperator(operator, {from:admin})
         assert.equal(await this.baseOperators.isOperator(operator), true, "operator not set");
+
+        this.whitelist = await Whitelist.new({ from: admin })
+        await this.whitelist.initialize(this.baseOperators.address, { from: admin })
         
         this.tokenImpl = await EdgeToken.new()
         this.tokenImplUpgrade = await EdgeTokenConstructorUpgrade.new()
-        const initializeData = encodeCall('initialize', ['address'], [this.baseOperators.address])
+        const initializeData = encodeCall('initialize', ['address', 'address'], [this.baseOperators.address, this.whitelist.address])
         this.proxy = await EdgeTokenProxy.new(this.tokenImpl.address, proxyAdmin, initializeData, {from: owner})
         this.token = await EdgeToken.at(this.proxy.address)
     })
@@ -21,6 +24,15 @@ contract('EdgeTokenConstructorUpgrade', ([owner, admin, operator, proxyAdmin, pr
             it('check implementation set', async () =>{
                 assert.equal(await getImplementation(this.proxy), this.tokenImpl.address.toLowerCase())
             })
+            describe('contracts initialized', () => {
+                it('base operators', async () => {
+                    assert.equal(await this.token.getOperatorsContract(), this.baseOperators.address)
+                });
+                it('whitelist', async () => {
+                    assert.equal(await this.token.getWhitelistContract(), this.whitelist.address)			
+                });
+        
+            });
         })
         context('admin set', () => {
             it('check admin set', async () => {
@@ -119,7 +131,7 @@ contract('EdgeTokenConstructorUpgrade', ([owner, admin, operator, proxyAdmin, pr
             })
             describe('constructor values initialized', () => {
                 beforeEach(async () => {
-                    await this.token.toggleWhitelist(whitelisted, true, { from: operator })
+                    await this.whitelist.toggleWhitelist(whitelisted, true, { from: operator })
                     await this.token.mint(whitelisted, 100, { from: operator })
                 });
                 it('ensure mint balance updated', async () => {
@@ -128,7 +140,7 @@ contract('EdgeTokenConstructorUpgrade', ([owner, admin, operator, proxyAdmin, pr
                 describe('old versions', () => {
                     beforeEach(async () => {
                         this.token = await EdgeToken.at(this.proxy.address)
-                        await this.token.mint(whitelisted, 100, { from: operator })                            
+                        await this.token.mint(whitelisted, 100, { from: operator })
                     });
                     it('old version works', async () => {
                         assert.equal(await this.token.balanceOf(whitelisted), 200)

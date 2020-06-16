@@ -9,10 +9,10 @@ pragma solidity 0.5.12;
 
 import "../../../EdgeToken.sol";
 
-contract EdgeTokenConstructorUpgrade is EdgeToken {
+contract EdgeTokenWhitelistableUpgrade is EdgeToken {
     bool public initializedWhitelistableUpgrade;
 
-    function initializeConstructor(address _whitelist) public {
+    function initializeWhitelist(address _whitelist) public {
       require(!initializedWhitelistableUpgrade, "EdgeTokenWhitelistableUpgrade: already initialized");
       _setWhitelistContract(_whitelist);
       initializedWhitelistableUpgrade = true;
