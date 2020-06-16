@@ -1,4 +1,4 @@
-const { getAdmin, getImplementation, encodeCall, expectEvent, expectRevert, assertRevert, EdgeToken, EdgeTokenConstructorUpgrade, EdgeTokenProxy, ZERO_ADDRESS } = require('../common')
+const { getAdmin, getImplementation, encodeCall, expectEvent, expectRevert, assertRevert, EdgeToken, EdgeTokenConstructorUpgrade, EdgeTokenProxy, ZERO_ADDRESS } = require('../../common')
 const { BaseOperators, Whitelist } = require('@sygnum/solidity-base-contracts')
 
 
