@@ -42,21 +42,21 @@ contract('EdgeToken', ([admin, operator, system, whitelisted, whitelisted1, whit
 							})
 						})
 					})
-				describe('whitelisted', () => {
-					describe('non functional', () => {
-						it('revert self whitelist', async () => {
-							await expectRevert(this.token.mint(whitelisted, MINT, { from: whitelisted }), 'Operatorable: caller does not have the operator role nor system')
+					describe('whitelisted', () => {
+						describe('non functional', () => {
+							it('revert self whitelist', async () => {
+								await expectRevert(this.token.mint(whitelisted, MINT, { from: whitelisted }), 'Operatorable: caller does not have the operator role nor system')
+							})
+							it('revert mint 0', async () => {
+								await expectRevert(this.token.mint(whitelisted, 0, { from: operator }), 'ERC20Mintable: amount has to be greater than 0')
+							})						
+							it('revert mint empty address', async () => {
+								await expectRevert(this.token.mint(ZERO_ADDRESS, MINT, { from: operator }), 'Whitelistable: account is not whitelisted.') // Cannot add to whitelist before minting
+							})						
+							it('revert attacker mint', async () => {
+								await expectRevert(this.token.mint(whitelisted, MINT, { from: attacker }), 'Operatorable: caller does not have the operator role nor system.')
+							})
 						})
-						it('revert mint 0', async () => {
-							await expectRevert(this.token.mint(whitelisted, 0, { from: operator }), 'ERC20Mintable: amount has to be greater than 0')
-						})						
-						it('revert mint empty address', async () => {
-							await expectRevert(this.token.mint(ZERO_ADDRESS, MINT, { from: operator }), 'Whitelistable: account is not whitelisted.') // Cannot add to whitelist before minting
-						})						
-						it('revert attacker mint', async () => {
-							await expectRevert(this.token.mint(whitelisted, MINT, { from: attacker }), 'Operatorable: caller does not have the operator role nor system.')
-						})						
-					})
 						describe('functional', () => {
 							describe('from operator', () => {
 								beforeEach(async () => {
@@ -236,26 +236,26 @@ contract('EdgeToken', ([admin, operator, system, whitelisted, whitelisted1, whit
 									await this.token.batchMint(TWO_ADDRESSES, [MINT, MINT], { from: operator })
 								});
 								describe('non-functional', () => {
-										it('revert address count and value count not equal', async () => {
-											await expectRevert(this.token.batchBurnFor(TWO_ADDRESSES, [BURN], { from: operator }), 'EdgeToken: values and recipients are not equal.')
-										})
-										it('revert burnFor over 256 addresses', async () => {
-											await expectRevert(this.token.batchBurnFor(THREE_HUNDRED_ADDRESS, THREE_HUNDRED_NUMBERS, { from: operator }), 'EdgeToken: batch count is greater than BATCH_LIMIT')
-										})
+									it('revert address count and value count not equal', async () => {
+										await expectRevert(this.token.batchBurnFor(TWO_ADDRESSES, [BURN], { from: operator }), 'EdgeToken: values and recipients are not equal.')
 									})
-									describe('functional', () => {
-										describe('batch burnFor 2 addresses', () => {
-											beforeEach(async () => {
-												await this.token.batchBurnFor(TWO_ADDRESSES, [BURN, BURN], { from: operator })
-											});
-											it('first address balance updated', async () => {
-												assert.equal(await this.token.balanceOf(TWO_ADDRESSES[0]), (MINT - BURN))
-											});
-											it('second address balance updated', async () => {
-												assert.equal(await this.token.balanceOf(TWO_ADDRESSES[1]), (MINT - BURN))
-											});
+									it('revert burnFor over 256 addresses', async () => {
+										await expectRevert(this.token.batchBurnFor(THREE_HUNDRED_ADDRESS, THREE_HUNDRED_NUMBERS, { from: operator }), 'EdgeToken: batch count is greater than BATCH_LIMIT')
+									})
+								})
+								describe('functional', () => {
+									describe('batch burnFor 2 addresses', () => {
+										beforeEach(async () => {
+											await this.token.batchBurnFor(TWO_ADDRESSES, [BURN, BURN], { from: operator })
 										});
-									})
+										it('first address balance updated', async () => {
+											assert.equal(await this.token.balanceOf(TWO_ADDRESSES[0]), (MINT - BURN))
+										});
+										it('second address balance updated', async () => {
+											assert.equal(await this.token.balanceOf(TWO_ADDRESSES[1]), (MINT - BURN))
+										});
+									});
+								})
 							});
 						});
 					}) // end of batch		
@@ -367,7 +367,7 @@ contract('EdgeToken', ([admin, operator, system, whitelisted, whitelisted1, whit
 			})
 			context('transfer', () => {
 				beforeEach(async () => {
-					await this.token.batchMint([ whitelisted, whitelisted1, frozen, frozen1 ], [ MINT, MINT, MINT, MINT], { from: operator})
+					await this.token.batchMint([ whitelisted, whitelisted1, frozen, frozen1 ], [ MINT, MINT, MINT, MINT ], { from: operator})
 				})
 				describe('unwhitelisted', async () => {
 					describe('non-functional', async () => {
