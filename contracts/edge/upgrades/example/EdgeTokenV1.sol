@@ -14,8 +14,8 @@ contract EdgeTokenV1 is EdgeToken {
     uint256 public newUint;
     bool public initializedV1;
 
-    function initialize(address _operatorsAddr, bool _newBool, address _newAddress, uint _newUint) public {
-        super.initialize(_operatorsAddr);
+    function initialize(address _operatorsAddr, address _whitelist, bool _newBool, address _newAddress, uint _newUint) public {
+        super.initialize(_operatorsAddr, _whitelist);
         initV1(_newBool, _newAddress, _newUint);
     }
 

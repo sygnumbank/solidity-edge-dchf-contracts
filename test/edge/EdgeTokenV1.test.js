@@ -5,7 +5,8 @@ const { BaseOperators, Whitelist } = require('@sygnum/solidity-base-contracts')
 contract('EdgeTokenV1', ([admin, newAddress]) => {
     beforeEach(async () => {
         this.baseOperators = await BaseOperators.new(admin, {from: admin})
-		this.token = await EdgeTokenV1.new()
+		this.whitelist = await Whitelist.new({ from: admin })
+		this.token = await EdgeTokenV1.new({ from: admin })
 	})
 	context('when not initialized', () => {
 		describe('new variables not initialized', () => {
@@ -36,7 +37,7 @@ contract('EdgeTokenV1', ([admin, newAddress]) => {
 	})
 	context('when initialized', () => {
 		beforeEach(async () => {
-			await this.token.initialize(this.baseOperators.address, newBool, newAddress, newUint)
+			await this.token.initialize(this.baseOperators.address, this.whitelist.address, newBool, newAddress, newUint)
 		})
 		it('initialization bool success', async () => {
 			assert.equal(await this.token.initializedV1(), true)
@@ -54,7 +55,7 @@ contract('EdgeTokenV1', ([admin, newAddress]) => {
 		});
 		describe('non-functional', () => {
 			it('reverts when re-initializating', async () => {
-					await expectRevert(this.token.initialize(this.baseOperators.address, newBool, newAddress, newUint), 'Initializable: Contract instance has already been initialized')
+					await expectRevert(this.token.initialize(this.baseOperators.address, this.whitelist.address, newBool, newAddress, newUint), 'Initializable: Contract instance has already been initialized')
 			})
 			it('reverts when calling re-initialization sub function', async () =>{
 					await expectRevert(this.token.initV1(newBool, newAddress, newUint), 'EdgeTokenV1: already initialized')
