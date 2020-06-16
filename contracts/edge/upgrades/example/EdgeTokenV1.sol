@@ -6,7 +6,7 @@
 */
 pragma solidity 0.5.12;
 
-import "../EdgeToken.sol";
+import "../../EdgeToken.sol";
 
 contract EdgeTokenV1 is EdgeToken {
     bool public newBool;

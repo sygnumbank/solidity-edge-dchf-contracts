@@ -9,7 +9,7 @@
 */
 pragma solidity 0.5.12;
 
-import "../EdgeToken.sol";
+import "../../../EdgeToken.sol";
 
 contract EdgeTokenConstructorUpgrade is EdgeToken {
     string private _name;
