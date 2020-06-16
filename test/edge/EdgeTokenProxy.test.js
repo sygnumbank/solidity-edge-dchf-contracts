@@ -6,10 +6,14 @@ const { getAdmin, getImplementation, encodeCall, expectEvent, expectRevert, asse
 contract('EdgeTokenProxy', ([owner, admin, operator, proxyAdmin, proxyAdminNew, attacker, whitelisted, newAddress]) => {
     beforeEach(async () => {
         this.baseOperators = await BaseOperators.new(admin, { from:admin })
-        this.tokenImpl = await EdgeToken.new()
-        this.tokenImplV1 = await EdgeTokenV1.new()
+        this.whitelist = await Whitelist.new({ from: admin })
+
+        this.tokenImpl = await EdgeToken.new({ from: admin })
+        this.tokenImplV1 = await EdgeTokenV1.new({ from: admin })
 
         this.initializeDataV1 = encodeCall('initV1', ['bool', 'address', 'uint256'], [newBool, newAddress, newUint])
+
+        await this.whitelist.initialize(this.baseOperators.address, { from: admin })
     });
     context('Role set-up', () => {
         beforeEach(async () => {
@@ -17,7 +21,7 @@ contract('EdgeTokenProxy', ([owner, admin, operator, proxyAdmin, proxyAdminNew, 
         });
         context('proxy initialized', () => {
             beforeEach(async () => {
-                const initializeData = encodeCall('initialize', ['address'], [this.baseOperators.address])
+                const initializeData = encodeCall('initialize', ['address, address'], [this.baseOperators.address, this.whitelist.address])
                 this.proxy = await EdgeTokenProxy.new(this.tokenImpl.address, proxyAdmin, initializeData, { from: owner })
                 this.token = await EdgeToken.at(this.proxy.address)
             });
@@ -97,24 +101,23 @@ contract('EdgeTokenProxy', ([owner, admin, operator, proxyAdmin, proxyAdminNew, 
                 context('delegate call initial implementation', () => {
                     context('when whitelisted', () => {
                         beforeEach(async () => {
-                            await this.token.toggleWhitelist(whitelisted, true, {from: operator})
-                            this.mint = 100
+                            await this.whitelist.toggleWhitelist(whitelisted, true, {from: operator})
                         });
                         context('minting', () => {
                             describe('non-functional', () => {
                                 it('revert from proxy admin', async () => {
-                                    await expectRevert(this.token.mint(whitelisted, this.mint, { from: proxyAdmin }), 'Cannot call fallback function from the proxy admin.')
+                                    await expectRevert(this.token.mint(whitelisted, MINT, { from: proxyAdmin }), 'Cannot call fallback function from the proxy admin.')
                                 });
                                 it('revert from attacker', async () => {
-                                    await expectRevert(this.token.mint(whitelisted, this.mint, { from: attacker }), 'Operatorable: caller does not have the operator role nor system')
+                                    await expectRevert(this.token.mint(whitelisted, MINT, { from: attacker }), 'Operatorable: caller does not have the operator role nor system')
                                 });
                             });
                             describe('functional', () => {
                                 beforeEach(async () => {
-                                    await this.token.mint(whitelisted, this.mint, { from: operator })
+                                    await this.token.mint(whitelisted, MINT, { from: operator })
                                 });
                                 it('minted balance set', async () => {
-                                    assert.equal(await this.token.balanceOf(whitelisted), this.mint)
+                                    assert.equal(await this.token.balanceOf(whitelisted), MINT)
                                 });
                                 describe('upgrade to and calls', () => {
                                     beforeEach(async () => {
@@ -132,7 +135,7 @@ contract('EdgeTokenProxy', ([owner, admin, operator, proxyAdmin, proxyAdminNew, 
                                         });
                                         describe('ensure old data valid', () => {
                                             it('balance consistent', async () => {
-                                                assert.equal(await this.token.balanceOf(whitelisted), this.mint) 
+                                                assert.equal(await this.token.balanceOf(whitelisted), MINT) 
                                             });
                                             it('bool consistent', async () => {
                                                 assert.equal(await this.token.newBool(), newBool)
@@ -153,10 +156,10 @@ contract('EdgeTokenProxy', ([owner, admin, operator, proxyAdmin, proxyAdminNew, 
                                             });
                                             describe('ensure old functionality still operational', () => {
                                                 beforeEach(async () => {
-                                                    await this.token.mint(whitelisted, this.mint, { from: operator })
+                                                    await this.token.mint(whitelisted, MINT, { from: operator })
                                                 });
                                                 it('balance set', async () => {
-                                                    assert.equal(await this.token.balanceOf(whitelisted), (this.mint + this.mint))
+                                                    assert.equal(await this.token.balanceOf(whitelisted), (MINT + MINT))
                                                 });
                                             });
                                         });

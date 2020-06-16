@@ -32,13 +32,10 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
      * @dev Initialization instead of constructor, only called once.
      * @param _baseOperators Address of baseOperators contract.
      */
-    function initialize(address _baseOperators) public initializer {
-        super.initialize(_baseOperators);
+    function initialize(address _baseOperators, address _whitelist) public initializer {
+        super.initialize(_baseOperators, _whitelist);
     }
 
-    // function initialize(address _baseOperators, address _whitelist) public initializer {
-    //     super.initialize(_baseOperators, _whitelist);
-    // }
     /**
     * @dev Burn.
     * @param _amount Amount of tokens to burn.

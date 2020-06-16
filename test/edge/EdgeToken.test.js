@@ -11,6 +11,14 @@ contract('EdgeToken', ([admin, operator, system, whitelisted, whitelisted1, whit
 		await this.whitelist.initialize(this.baseOperators.address, { from: admin })
 		await this.token.initialize(this.baseOperators.address, this.whitelist.address, { from: admin })
 	})
+	describe('token initialized', () => {
+		it('base operators', async () => {
+			assert.equal(await this.token.getOperatorsContract(), this.baseOperators.address)
+		});
+		it('whitelist', async () => {
+			assert.equal(await this.token.getWhitelistContract(), this.whitelist.address)			
+		});
+	});
 	context('Role set-up', () => {
 		beforeEach(async () => {
 			await this.baseOperators.addOperator(operator, { from: admin })
