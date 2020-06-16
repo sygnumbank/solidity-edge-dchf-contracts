@@ -1,6 +1,7 @@
-const { BaseOperators, Whitelist } = require('@sygnum/solidity-base-contracts')
+const { BaseOperators, Whitelist, MINT } = require('@sygnum/solidity-base-contracts')
 
 const { getAdmin, getImplementation, encodeCall, expectEvent, expectRevert, assertRevert, EdgeToken, EdgeTokenV1, EdgeTokenProxy, newBool, newUint, ZERO_ADDRESS } = require('../common')
+
 
 
 contract('EdgeTokenProxy', ([owner, admin, operator, proxyAdmin, proxyAdminNew, attacker, whitelisted, newAddress]) => {
@@ -21,7 +22,7 @@ contract('EdgeTokenProxy', ([owner, admin, operator, proxyAdmin, proxyAdminNew, 
         });
         context('proxy initialized', () => {
             beforeEach(async () => {
-                const initializeData = encodeCall('initialize', ['address, address'], [this.baseOperators.address, this.whitelist.address])
+                const initializeData = encodeCall('initialize', ['address', 'address'], [this.baseOperators.address, this.whitelist.address])
                 this.proxy = await EdgeTokenProxy.new(this.tokenImpl.address, proxyAdmin, initializeData, { from: owner })
                 this.token = await EdgeToken.at(this.proxy.address)
             });
