@@ -14,8 +14,8 @@ contract EdgeTokenBlockUnblockTraderUpgrade is EdgeTokenWhitelistableUpgrade, ER
 
     function initializeBlockerTraderOperators(address _blockerOperators, address _traderOperators) public {
         require(!initializedBlockUnblockTraderUpgrade, "EdgeTokenBlockUnblockTraderUpgrade: already initialized");
-        _setBlockerOperatorsContract(_blockerOperators, _traderOperators);
-        _setTraderOperatorsContract(_whitelist);
+        _setBlockerOperatorsContract(_blockerOperators);
+        _setTraderOperatorsContract(_traderOperators);
         initializedBlockUnblockTraderUpgrade = true;
     }
 }

@@ -1,5 +1,5 @@
-const { getAdmin, getImplementation, encodeCall, expectEvent, expectRevert, assertRevert, EdgeToken, EdgeTokenBlockUnblockTraderUpgrade, TraderOperators, BlockerOperators, EdgeTokenProxy, ZERO_ADDRESS } = require('../../common')
-const { BaseOperators, Whitelist } = require('@sygnum/solidity-base-contracts')
+const { getAdmin, getImplementation, encodeCall, expectEvent, expectRevert, assertRevert, EdgeToken, EdgeTokenBlockUnblockTraderUpgrade, EdgeTokenProxy, ZERO_ADDRESS } = require('../../common')
+const { BaseOperators, Whitelist, TraderOperators, BlockerOperators } = require('@sygnum/solidity-base-contracts')
 
 
 contract('EdgeTokenBlockUnblockTraderUpgrade', ([owner, admin, operator, proxyAdmin, proxyAdminNew, attacker, whitelisted]) => {
@@ -12,10 +12,10 @@ contract('EdgeTokenBlockUnblockTraderUpgrade', ([owner, admin, operator, proxyAd
 
 
         this.traderOperators = await TraderOperators.new({ from: admin })
-        await this.traderOperators.initialize(this.baseOperators.address)
+        await this.traderOperators.initialize(this.baseOperators.address, { from: admin })
 
         this.blockerOperators = await BlockerOperators.new({ from: admin })
-        await this.blockerOperators.initialize(this.baseOperators.address)
+        await this.blockerOperators.initialize(this.baseOperators.address, { from: admin })
         
         this.tokenImpl = await EdgeToken.new()
         this.tokenImplUpgrade = await EdgeTokenBlockUnblockTraderUpgrade.new()
@@ -136,10 +136,10 @@ contract('EdgeTokenBlockUnblockTraderUpgrade', ([owner, admin, operator, proxyAd
                         it('instance set', async () => {
                             assert.equal(this.token.address, this.proxy.address)
                         });
-                        it(' pointer updated', async () => {
+                        it('blockerOperators pointer updated', async () => {
                             assert.equal(await this.token.getBlockerOperatorsContract(), this.blockerOperators.address)
                         });
-                        it('whitelist pointer updated', async () => {
+                        it('traderOperators pointer updated', async () => {
                             assert.equal(await this.token.getTraderOperatorsContract(), this.traderOperators.address)
                         });
                     })
