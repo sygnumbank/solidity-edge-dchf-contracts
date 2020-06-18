@@ -24,7 +24,7 @@
     "dotenv": "8.1.0",
     "ethereumjs-abi": "0.6.7",
     "ganache-cli": "6.6.0",
-    "openzeppelin-solidity": "2.3.0",
+    "openzeppelin-solidity": "2.5.0",
     "openzeppelin-test-helpers": "0.4.3",
     "sol2uml": "1.1.12",
     "truffle": "5.0.34",
