@@ -2,7 +2,7 @@ const { getAdmin, getImplementation, encodeCall, expectEvent, expectRevert, asse
 const { BaseOperators, Whitelist } = require('@sygnum/solidity-base-contracts')
 
 
-contract('EdgeTokenWhitelistableUpgrade', ([owner, admin, operator, proxyAdmin, proxyAdminNew, attacker, whitelisted]) => {
+contract('EdgeTokenBlockUnblockTraderUpgrade', ([owner, admin, operator, proxyAdmin, proxyAdminNew, attacker, whitelisted]) => {
     beforeEach(async () => {
         this.baseOperators = await BaseOperators.new(admin, {from:admin})
         await this.baseOperators.addOperator(operator, {from:admin})
