@@ -8,9 +8,9 @@
  */
 pragma solidity 0.5.12;
 
-import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
 
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Overload/ERC20.sol";
 import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Whitelist.sol";
 import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Pausable.sol";
 import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Freezable.sol";

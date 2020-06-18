@@ -7,7 +7,7 @@
  */
 pragma solidity 0.5.12;
 
-import "../../../EdgeToken.sol";
+import "../../prd/constructor/EdgeTokenConstructorUpgrade.sol";
 
 contract EdgeTokenWhitelistableUpgrade is EdgeToken {
     bool public initializedWhitelistableUpgrade;
