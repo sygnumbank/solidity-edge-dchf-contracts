@@ -5,7 +5,7 @@
 */
 pragma solidity 0.5.12;
 
-import 'zos-lib/contracts/upgradeability/AdminUpgradeabilityProxy.sol';
+import '@openzeppelin/upgrades/contracts/upgradeability/AdminUpgradeabilityProxy.sol';
 
 
 contract EdgeTokenProxy is AdminUpgradeabilityProxy {
