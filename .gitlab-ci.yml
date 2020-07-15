@@ -12,9 +12,9 @@ stages:
 
 solidity-build:
   extends: .solidity-build
-  # before_script:
-  #  - npm config set @sygnum:registry https://gitlab.com/api/v4/packages/npm/
-  #  - npm config set '//gitlab.com/api/v4/packages/npm/:_authToken' "${CI_JOB_TOKEN}"
+  before_script:
+    - npm config set @sygnum:registry https://gitlab.com/api/v4/packages/npm/
+    - npm config set '//gitlab.com/api/v4/packages/npm/:_authToken' "${CI_JOB_TOKEN}"
  
 solidity-test:
   extends: .solidity-test
