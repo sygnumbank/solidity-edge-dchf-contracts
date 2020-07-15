@@ -32,6 +32,7 @@
     "truffle-events": "0.0.7",
     "truffle-flattener": "1.4.2",
     "truffle-hdwallet-provider": "1.0.10",
+    "web3": "^1.2.9",
     "zos": "2.3.1"
   },
   "publishConfig": {
