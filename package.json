@@ -23,6 +23,7 @@
     "truffle-flattener": "^1.4.2"
   },
   "devDependencies": {
+    "@sygnum/solidity-base-contracts": "0.1.4",
     "@truffle/contract": "^4.1.11",
     "chai": "^4.2.0",
     "eth-json-rpc-filters": "^4.1.1",
