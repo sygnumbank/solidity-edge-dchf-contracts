@@ -4,7 +4,6 @@ include:
     file: '/gitlab/.ethereum-contracts-ci-template.yml'
 
 stages:
-  -
   - solidity-build
   - npm-publish
   - solidity-tests
