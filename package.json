@@ -26,6 +26,7 @@
     "ganache-cli": "6.6.0",
     "openzeppelin-solidity": "2.5.0",
     "openzeppelin-test-helpers": "0.4.3",
+    "scrypt": "^6.0.3",
     "sol2uml": "1.1.12",
     "truffle": "5.0.34",
     "truffle-events": "0.0.7",
