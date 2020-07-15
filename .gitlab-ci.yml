@@ -7,8 +7,8 @@ stages:
   - solidity-build
   - npm-publish
   - solidity-tests
-  # - deploy-to-ropsten
-  # - deploy-to-mainnet
+  - deploy-to-ropsten
+  - deploy-to-mainnet
 
 solidity-build:
   extends: .solidity-build
