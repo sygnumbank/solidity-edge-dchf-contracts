@@ -7,8 +7,8 @@ stages:
   - solidity-build
   - npm-publish
   - solidity-tests
-  - deploy-to-ropsten
-  - deploy-to-mainnet
+  # - deploy-to-ropsten
+  # - deploy-to-mainnet
 
 solidity-build:
   extends: .solidity-build
@@ -47,7 +47,7 @@ npm-publish:
     - echo '//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}'>.npmrc
     - npm publish
   only:
-    - ERC20-confiscatable-destroyable-snapshot-AL-1174
+    - feature/develop/block-unblock-functionality-AL-229
   tags:
     - aws
     - docker
