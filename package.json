@@ -35,7 +35,8 @@
     "solidity-coverage": "^0.7.2",
     "truffle": "^5.1.24",
     "verify-on-etherscan": "^1.2.1",
-    "@openzeppelin/upgrades": "2.8.0"
+    "@openzeppelin/upgrades": "2.8.0",
+    "zos-lib": "2.4.3"
   },
   "publishConfig": {
     "@sygnum:registry": "https://gitlab.com/api/v4/projects/15856546/packages/npm/"
