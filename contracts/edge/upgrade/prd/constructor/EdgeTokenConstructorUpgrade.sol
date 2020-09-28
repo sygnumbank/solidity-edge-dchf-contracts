@@ -7,9 +7,9 @@
  *      were declared private, the getter functions 'name(), symbol(), decimals()' required to be
  *      overloaded to point to the correct/new/overloaded variables.
 */
-pragma solidity 0.5.0;
+pragma solidity 0.5.12;
 
-import "../EdgeToken.sol";
+import "../../../EdgeToken.sol";
 
 contract EdgeTokenConstructorUpgrade is EdgeToken {
     string private _name;
