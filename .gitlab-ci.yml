@@ -33,9 +33,11 @@ npm-publish:
     - sygnum
 
 solidity-test:
+  image: node:10
   extends: .solidity-test
 
 solidity-coverage:
+  image: node:10
   extends: .solidity-coverage
 
 solidity-uml:
