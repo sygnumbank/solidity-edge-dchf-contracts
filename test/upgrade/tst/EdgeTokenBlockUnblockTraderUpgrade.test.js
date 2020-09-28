@@ -10,7 +10,6 @@ contract('EdgeTokenBlockUnblockTraderUpgrade', ([owner, admin, operator, proxyAd
         this.whitelist = await Whitelist.new({ from: admin })
         await this.whitelist.initialize(this.baseOperators.address, { from: admin })
 
-
         this.traderOperators = await TraderOperators.new({ from: admin })
         await this.traderOperators.initialize(this.baseOperators.address, { from: admin })
 

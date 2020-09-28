@@ -19,8 +19,8 @@ import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Burnable.so
 import "@sygnum/solidity-base-contracts/contracts/helpers/Initializable.sol";
 
 
-contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializable, ERC20Whitelist,
-                        ERC20Pausable, ERC20Freezable, ERC20Mintable, ERC20Burnable {
+contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializable, ERC20Pausable,
+                        ERC20Whitelist, ERC20Freezable, ERC20Mintable, ERC20Burnable {
 
     event Minted(address indexed minter, address indexed account, uint256 value);
     event Burned(address indexed burner, uint256 value);

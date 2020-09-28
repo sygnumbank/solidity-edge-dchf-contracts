@@ -5,16 +5,13 @@ include:
 
 stages:
   - solidity-build
-  - npm-publish
   - solidity-tests
+  - npm-publish
   - deploy-to-ropsten
   - deploy-to-mainnet
 
 solidity-build:
   extends: .solidity-build
-  before_script:
-    - npm config set @sygnum:registry https://gitlab.com/api/v4/packages/npm/
-    - npm config set '//gitlab.com/api/v4/packages/npm/:_authToken' "${CI_JOB_TOKEN}"
  
 solidity-test:
   extends: .solidity-test
@@ -50,7 +47,8 @@ npm-publish:
     - echo '//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}'>.npmrc
     - npm publish
   only:
-    - feature/develop/block-unblock-functionality-AL-229
+    - master
+    - develop
   tags:
     - aws
     - docker

@@ -18,27 +18,28 @@
   "author": "Connor Howe <connor.howe@sygnum.com>",
   "license": "MIT",
   "dependencies": {
-    "@truffle/hdwallet-provider": "^1.0.35",
-    "dotenv": "^8.2.0",
-    "truffle-flattener": "^1.4.2"
-  },
-  "devDependencies": {
-    "@sygnum/solidity-base-contracts": "0.1.4",
-    "@truffle/contract": "^4.1.11",
-    "chai": "^4.2.0",
-    "eth-json-rpc-filters": "^4.1.1",
-    "ethers": "^4.0.45",
-    "ganache-cli": "^6.9.1",
-    "openzeppelin-solidity": "^2.5.0",
-    "openzeppelin-test-helpers": "^0.5.1",
-    "sol2uml": "1.1.13",
-    "solidity-coverage": "^0.7.2",
-    "truffle": "^5.1.24",
-    "verify-on-etherscan": "^1.2.1",
+    "@openzeppelin/test-helpers": "0.5.6",
     "@openzeppelin/upgrades": "2.8.0",
+    "@sygnum/solidity-base-contracts": "file:../solidity-base-contracts",
+    "@truffle/hdwallet-provider": "1.0.35",
+    "@truffle/contract": "4.1.11",
+    "chai": "4.2.0",
+    "dotenv": "8.2.0",
+    "eth-json-rpc-filters": "4.1.1",
+    "ethers": "4.0.45",
+    "ganache-cli": "6.9.1",
+    "openzeppelin-solidity": "2.5.0",
+    "sol2uml": "1.1.13",
+    "solidity-coverage": "0.7.9",
+    "truffle": "5.1.24",
+    "truffle-flattener": "1.4.2",
+    "verify-on-etherscan": "1.2.1",
     "zos-lib": "2.4.3"
   },
   "publishConfig": {
     "@sygnum:registry": "https://gitlab.com/api/v4/projects/15856546/packages/npm/"
+  },
+  "engines": {
+    "node": ">=10.0.0 <11.0.0"
   }
 }

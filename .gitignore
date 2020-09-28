@@ -13,6 +13,8 @@ scTopics
 coverage
 coverage.json
 coverageEnv
+.coverage_artifacts
+.coverage_contracts
 
 # Dependency directory
 node_modules
@@ -22,10 +24,6 @@ node_modules
 
 # truffle
 .node-xmlhttprequest-*
-
-# only used to package 
-contracts/build/
-contracts/README.md
 
 build/*
 flattened/*
