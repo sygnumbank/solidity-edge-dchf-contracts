@@ -11,6 +11,7 @@ stages:
   - deploy-to-mainnet
 
 solidity-build:
+  image: node:10-alpine
   extends: .solidity-build
  
 solidity-test:
