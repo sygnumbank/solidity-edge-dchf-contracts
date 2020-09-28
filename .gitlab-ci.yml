@@ -5,8 +5,8 @@ include:
 
 stages:
   - solidity-build
-  - solidity-tests
   - npm-publish
+  - solidity-tests
   - deploy-to-ropsten
   - deploy-to-mainnet
 
@@ -14,6 +14,21 @@ solidity-build:
   image: node:10
   extends: .solidity-build
  
+npm-publish:
+  image: aob-sygnum-int-docker.bin.swisscom.com/alpine-node:12.16
+  stage: npm-publish
+  script:
+    - echo '//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}'>.npmrc
+    - npm publish
+  only:
+    - master
+    - develop
+  tags:
+    - aws
+    - docker
+    - spot
+    - sygnum
+
 solidity-test:
   extends: .solidity-test
 
@@ -40,21 +55,6 @@ deploy-to-tst:
 
 topup-ropsten:
   extends: .topup-ropsten
-
-npm-publish:
-  image: aob-sygnum-int-docker.bin.swisscom.com/alpine-node:12.16
-  stage: npm-publish
-  script:
-    - echo '//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}'>.npmrc
-    - npm publish
-  only:
-    - master
-    - develop
-  tags:
-    - aws
-    - docker
-    - spot
-    - sygnum
 
 deploy-to-prd:
   extends: .deploy-to-prd
