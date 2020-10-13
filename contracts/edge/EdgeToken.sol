@@ -100,7 +100,7 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
      * @param _recipients Array of recipient addresses.
      * @param _values Array of amount to burn.
      */
-    function batchBurnFor(address[] memory _recipients, uint256[] memory _values) public returns (bool) {
+    function batchBurnFor(address[] memory _recipients, uint256[] memory _values) public {
         require(_recipients.length == _values.length, "EdgeToken: values and recipients are not equal.");
         require(_recipients.length <= BATCH_LIMIT, "EdgeToken: batch count is greater than BATCH_LIMIT.");
         for(uint256 i = 0; i < _recipients.length; i++) {
@@ -113,7 +113,7 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
      * @param _recipients Array of recipient addresses.
      * @param _values Array of amount to mint.
      */
-    function batchMint(address[] memory _recipients, uint256[] memory _values) public returns (bool) {
+    function batchMint(address[] memory _recipients, uint256[] memory _values) public {
         require(_recipients.length == _values.length, "EdgeToken: values and recipients are not equal.");
         require(_recipients.length <= BATCH_LIMIT, "EdgeToken: greater than BATCH_LIMIT.");
         for(uint256 i = 0; i < _recipients.length; i++) {
@@ -127,7 +127,7 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
     * @param _receivers array addresses who's receiving the funds
     * @param _values array of values of funds being confiscated
     */
-    function batchConfiscate(address[] memory _confiscatees, address[] memory _receivers, uint256[] memory _values) public returns (bool) {
+    function batchConfiscate(address[] memory _confiscatees, address[] memory _receivers, uint256[] memory _values) public {
         require(_confiscatees.length == _values.length && _receivers.length == _values.length, "EdgeToken: values and recipients are not equal");
         require(_confiscatees.length <= BATCH_LIMIT, "EdgeToken: batch count is greater than BATCH_LIMIT");
         for(uint256 i = 0; i < _confiscatees.length; i++) {
