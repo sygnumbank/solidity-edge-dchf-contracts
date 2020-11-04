@@ -13,6 +13,11 @@ module.exports = {
       gasPrice: 10000000000,
       network_id: 3
     }, 
+    goerli: {
+      provider: () => new HDWalletProvider(process.env.GOERLI_MNENOMIC_PHRASE, process.env.GOERLI_PROVIDER),
+      gasPrice: 10000000000,
+      network_id: 5
+    }, 
     mainnet: {
       provider: () => new HDWalletProvider(process.env.MAINNET_MNENOMIC_PHRASE, process.env.MAINNET_PROVIDER),
       gasPrice: 10000000000,
