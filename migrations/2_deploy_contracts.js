@@ -34,7 +34,7 @@ module.exports = function (deployer, network) {
 
     return deployer.deploy(EdgeTokenProxy, this.edgeToken.address, PROXY_ADMIN, initializeData);
   }).then(async (edgeTokenProxy) => {
-    if (network != "development") {
+    if (network != "development" && network != "soliditycoverage") {
       this.edgeTokenProxy = edgeTokenProxy;
       console.log("edgeTokenProxy", edgeTokenProxy.address);
 

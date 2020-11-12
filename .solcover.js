@@ -1,6 +1,8 @@
 module.exports = {
-    port: 8555,
-    copyPackages: ['openzeppelin-solidity', 'zos', 'zos-lib'],
-    skipFiles: ['Migrations.sol'],
-    // norpc: true
-  }
+  port: 8545,
+  providerOptions: {
+    total_accounts: 20,
+    default_balance_ether: 100
+  },
+  skipFiles: ['Migrations.sol']
+}
