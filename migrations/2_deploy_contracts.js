@@ -16,19 +16,18 @@ const {
 module.exports = function (deployer, network) {
   deployer.deploy(EdgeToken).then((edgeToken) => {
     this.edgeToken = edgeToken;
-    console.log("edgeToken", edgeToken.address);
+
     return deployer.deploy(EdgeTokenConstructorUpgrade);
   }).then((edgeTokenConstructorUpgrade) => {
     this.edgeTokenConstructorUpgrade = edgeTokenConstructorUpgrade;
-    console.log("edgeTokenConstructorUpgrade", edgeTokenConstructorUpgrade.address);
+
     return deployer.deploy(EdgeTokenWhitelistableUpgrade);
   }).then((edgeTokenWhitelistableUpgrade) => {
     this.edgeTokenWhitelistableUpgrade = edgeTokenWhitelistableUpgrade;
-    console.log("edgeTokenWhitelistableUpgrade", edgeTokenWhitelistableUpgrade.address);
+
     return deployer.deploy(EdgeTokenBlockUnblockTraderUpgrade);
   }).then((edgeTokenBlockUnblockTraderUpgrade) => {
     this.edgeTokenBlockUnblockTraderUpgrade = edgeTokenBlockUnblockTraderUpgrade;
-    console.log("edgeTokenBlockUnblockTraderUpgrade", edgeTokenBlockUnblockTraderUpgrade.address);
 
     let initializeData = encodeCall.default('initialize', ['address'], [BASE_OPERATORS_CONTRACT_ADDRESS]);
 
