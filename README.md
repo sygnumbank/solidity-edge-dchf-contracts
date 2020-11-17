@@ -9,6 +9,8 @@
 
 ## Overview
 
+Note: for now this repo only works with NodeJS 10.
+
 ### Installation
 
 Obtain a [gitlab access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
@@ -45,6 +47,16 @@ contract MyContract is EdgeToken {
 ```
 
 To keep your system secure, you should **always** use the installed code as-is, and neither copy-paste it from online sources, nor modify it yourself. The library is designed so that only the contracts and functions you use are deployed, so you don't need to worry about it needlessly increasing gas costs.
+
+### Testing
+
+First, install all required packages:  
+`npm install`  
+
+Then, in one terminal run:  
+`npx ganache-cli -q -a 20 -e 1000`  
+In another terminal run:  
+`npx truffle test`
 
 ## Security
 

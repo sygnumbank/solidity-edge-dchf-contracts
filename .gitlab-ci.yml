@@ -5,8 +5,8 @@ include:
 
 stages:
   - solidity-build
-  - npm-publish
   - solidity-tests
+  - npm-publish
   - deploy-to-ropsten
   - deploy-to-mainnet
 
