@@ -15,7 +15,7 @@
     "security",
     "sygnum"
   ],
-  "author": "Connor Howe <connor.howe@sygnum.com>",
+  "author": "Sygnum Bank AG - Blockchain Engineering <team3301@sygnum.com>",
   "license": "MIT",
   "dependencies": {
     "@openzeppelin/test-helpers": "0.5.6",
