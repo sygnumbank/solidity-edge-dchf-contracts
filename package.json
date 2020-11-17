@@ -2,14 +2,6 @@
   "name": "@sygnum/solidity-edge-dchf-contracts",
   "version": "1.0.4",
   "description": "Solidity DCHF contracts used across the Sygnum platform.",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git@gitlab.com:sygnum/blockchain-engineering/ethereum/solidity-edge-contracts/solidity-edge-dchf-contracts.git"
-  },
-  "scripts": {
-    "test": "npx concurrently --success \"first\" --kill-others \"ganache-cli -q -a 20 -e 1000\" \"truffle test\""
-  },
   "keywords": [
     "solidity",
     "ethereum",
@@ -18,8 +10,16 @@
     "security",
     "sygnum"
   ],
-  "author": "Sygnum Bank AG - Blockchain Engineering <team3301@sygnum.com>",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:sygnum/blockchain-engineering/ethereum/solidity-edge-contracts/solidity-edge-dchf-contracts.git"
+  },
   "license": "MIT",
+  "author": "Sygnum Bank AG - Blockchain Engineering <team3301@sygnum.com>",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx concurrently --success \"first\" --kill-others \"ganache-cli -q -a 20 -e 1000\" \"truffle test\""
+  },
   "dependencies": {
     "@sygnum/solidity-base-contracts": "0.2.4",
     "openzeppelin-solidity": "2.5.0",
@@ -41,10 +41,10 @@
     "truffle-flattener": "1.4.2",
     "verify-on-etherscan": "1.2.1"
   },
-  "publishConfig": {
-    "@sygnum:registry": "https://gitlab.com/api/v4/projects/15856546/packages/npm/"
-  },
   "engines": {
     "node": ">=10.0.0 <11.0.0"
+  },
+  "publishConfig": {
+    "@sygnum:registry": "https://gitlab.com/api/v4/projects/15856546/packages/npm/"
   }
 }
