@@ -8,8 +8,8 @@ contract('EdgeToken', ([admin, operator, system, whitelisted, whitelisted1, whit
 		this.token = await EdgeToken.new({ from: admin })
 		this.whitelist = await Whitelist.new({ from: admin })
 
-		await this.whitelist.initialize(this.baseOperators.address, { from: admin })
-		await this.token.initialize(this.baseOperators.address, this.whitelist.address, { from: admin })
+    await this.whitelist.initialize(this.baseOperators.address, { from: admin })
+		await this.token.methods['initialize(address,address)'](this.baseOperators.address, this.whitelist.address, { from: admin })
 	})
 	describe('token initialized', () => {
 		it('base operators', async () => {

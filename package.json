@@ -15,14 +15,14 @@
     "security",
     "sygnum"
   ],
-  "author": "Connor Howe <connor.howe@sygnum.com>",
+  "author": "Sygnum Bank AG - Blockchain Engineering <team3301@sygnum.com>",
   "license": "MIT",
   "dependencies": {
     "@openzeppelin/test-helpers": "0.5.6",
     "@openzeppelin/upgrades": "2.8.0",
     "@sygnum/solidity-base-contracts": "0.2.4",
     "@truffle/contract": "4.1.11",
-    "@truffle/hdwallet-provider": "1.0.35",
+    "@truffle/hdwallet-provider": "1.0.38",
     "chai": "4.2.0",
     "dotenv": "8.2.0",
     "eth-json-rpc-filters": "4.1.1",
