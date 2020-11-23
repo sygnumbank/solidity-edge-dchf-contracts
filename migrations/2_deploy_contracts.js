@@ -33,21 +33,24 @@ module.exports = function (deployer, network) {
 
     return deployer.deploy(EdgeTokenProxy, this.edgeToken.address, PROXY_ADMIN, initializeData);
   }).then(async (edgeTokenProxy) => {
-    if (network != "development" && network != "soliditycoverage") {
+    if (network != "development" && network != "soliditycoverage" && network != "mainnet") {
+      // note if using this for Goerli, PROXY_ADMIN must be in the first 10 derivations of your mnemonic phrase
+      // do not use this on mainnet
+
       this.edgeTokenProxy = edgeTokenProxy;
       console.log("edgeTokenProxy", edgeTokenProxy.address);
 
       let currentImpl = await EdgeTokenConstructorUpgrade.at(edgeTokenProxy.address);
-      await edgeTokenProxy.upgradeTo(this.edgeTokenConstructorUpgrade.address);
-      await currentImpl.initializeConstructor({ from: "0x0e5b1454a9b49d85F2De52D8C8027dF0EcDD5894" });
+      await edgeTokenProxy.upgradeTo(this.edgeTokenConstructorUpgrade.address, { from: PROXY_ADMIN });
+      await currentImpl.initializeConstructor();
 
       currentImpl = await EdgeTokenWhitelistableUpgrade.at(edgeTokenProxy.address);
-      await edgeTokenProxy.upgradeTo(this.edgeTokenWhitelistableUpgrade.address);
-      await currentImpl.initializeWhitelist(WHITELIST_CONTRACT_ADDRESS, { from: "0x0e5b1454a9b49d85F2De52D8C8027dF0EcDD5894" });
+      await edgeTokenProxy.upgradeTo(this.edgeTokenWhitelistableUpgrade.address, { from: PROXY_ADMIN });
+      await currentImpl.initializeWhitelist(WHITELIST_CONTRACT_ADDRESS);
 
       currentImpl = await EdgeTokenBlockUnblockTraderUpgrade.at(edgeTokenProxy.address);
-      await edgeTokenProxy.upgradeTo(this.edgeTokenBlockUnblockTraderUpgrade.address);
-      await currentImpl.initializeBlockerTraderOperators(BLOCKER_OPERATORS_CONTRACT_ADDRESS, TRADER_OPERATORS_CONTRACT_ADDRESS, { from: "0x0e5b1454a9b49d85F2De52D8C8027dF0EcDD5894" });
+      await edgeTokenProxy.upgradeTo(this.edgeTokenBlockUnblockTraderUpgrade.address, { from: PROXY_ADMIN });
+      await currentImpl.initializeBlockerTraderOperators(BLOCKER_OPERATORS_CONTRACT_ADDRESS, TRADER_OPERATORS_CONTRACT_ADDRESS);
     }
   });
 };
