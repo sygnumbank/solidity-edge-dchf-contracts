@@ -13,7 +13,7 @@ Note: for now this repo only works with NodeJS 10.
 
 ### Installation
 
-Obtain a [gitlab access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
+Obtain a [gitlab access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html). Using the `api` scope should suffice.
 
 ```console
 # Set URL for your scoped packages.
