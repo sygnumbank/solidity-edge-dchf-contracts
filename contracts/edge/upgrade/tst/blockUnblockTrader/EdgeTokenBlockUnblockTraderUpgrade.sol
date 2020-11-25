@@ -1,6 +1,6 @@
 /**
  * @title EdgeTokenBlockUnblockTraderUpgrade
- * @author Connor Howe <connor.howe@sygnum.com> 
+ * @author Connor Howe <connor.howe@sygnum.com>
  * @dev This contract will the used in the third upgrade done to EDGE for block/unblock/trader integration.
  */
 pragma solidity 0.5.12;
