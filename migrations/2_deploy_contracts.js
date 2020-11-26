@@ -33,10 +33,7 @@ module.exports = function (deployer, network) {
 
     return deployer.deploy(EdgeTokenProxy, this.edgeToken.address, PROXY_ADMIN, initializeData);
   }).then(async (edgeTokenProxy) => {
-    if (network != "development" && network != "soliditycoverage" && network != "mainnet") {
-      // note if using this for Goerli, PROXY_ADMIN must be in the first 10 derivations of your mnemonic phrase
-      // do not use this on mainnet
-
+    if (network == "goerli") {
       this.edgeTokenProxy = edgeTokenProxy;
       console.log("edgeTokenProxy", edgeTokenProxy.address);
 
