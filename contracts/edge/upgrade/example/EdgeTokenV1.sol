@@ -1,6 +1,6 @@
 /**
  * @title EdgeTokenV1
- * @author Connor Howe <connor.howe@sygnum.com> 
+ * @author Team 3301 <team3301@sygnum.com>
  * @dev Standard contract to display upgradability usability.  This is an example contract,
 *      that will not be used in production, to show how upgradability will be utilized.
 */
