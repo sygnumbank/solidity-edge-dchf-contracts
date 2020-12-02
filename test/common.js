@@ -1,5 +1,5 @@
-const { BN, constants, expectEvent, expectRevert } = require('openzeppelin-test-helpers')
-const { encodeCall } = require('zos-lib')
+const { BN, constants, expectEvent, expectRevert } = require('@openzeppelin/test-helpers')
+const { encodeCall } = require('zos-lib') /* TODO update library to openzeppelin/upgrades */
 const { ethers } = require('ethers')
 
 const { assertRevert, getAdmin, getImplementation } = require('./tools')
@@ -12,6 +12,9 @@ const EdgeToken = artifacts.require("EdgeToken")
 const EdgeTokenProxy = artifacts.require("EdgeTokenProxy")
 const EdgeTokenV1 = artifacts.require("EdgeTokenV1")
 const EdgeTokenConstructorUpgrade = artifacts.require("EdgeTokenConstructorUpgrade")
+const EdgeTokenWhitelistableUpgrade = artifacts.require("EdgeTokenWhitelistableUpgrade")
+const EdgeTokenBlockUnblockTraderUpgrade = artifacts.require("EdgeTokenBlockUnblockTraderUpgrade")
+
 
 const newBool = true
 const newUint = 5
@@ -33,6 +36,8 @@ module.exports = {
     EdgeTokenProxy,
     EdgeTokenV1,
     EdgeTokenConstructorUpgrade,
+    EdgeTokenWhitelistableUpgrade,
+    EdgeTokenBlockUnblockTraderUpgrade,
     TWO_ADDRESSES,
     newBool,
     newUint

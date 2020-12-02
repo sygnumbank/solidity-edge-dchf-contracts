@@ -1,27 +1,26 @@
 /**
  * @title EdgeToken
- * @author Connor Howe <connor.howe@sygnum.com>
+ * @author Team 3301 <team3301@sygnum.com>
  * @dev EdgeToken is a ERC20 token that is upgradable and pausable.
  *      User addresses require to be whitelisted for transfers
  *      to execute.  Addresses can be frozen, and funds from
  *      particular addresses can be confiscated.
  */
-pragma solidity 0.5.0;
+pragma solidity 0.5.12;
 
-import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
 
-import "./ERC20/ERC20Whitelist.sol";
-import "./ERC20/ERC20Pausable.sol";
-import "./ERC20/ERC20Freezable.sol";
-import "./ERC20/ERC20Mintable.sol";
-import "./ERC20/ERC20Burnable.sol";
-
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Overload/ERC20.sol";
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Whitelist.sol";
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Pausable.sol";
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Freezable.sol";
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Mintable.sol";
+import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Burnable.sol";
 import "@sygnum/solidity-base-contracts/contracts/helpers/Initializable.sol";
 
 
-contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializable, ERC20Whitelist,
-                        ERC20Pausable, ERC20Freezable, ERC20Mintable, ERC20Burnable {
+contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializable, ERC20Pausable,
+                        ERC20Whitelist, ERC20Freezable, ERC20Mintable, ERC20Burnable {
 
     event Minted(address indexed minter, address indexed account, uint256 value);
     event Burned(address indexed burner, uint256 value);
@@ -33,8 +32,8 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
      * @dev Initialization instead of constructor, only called once.
      * @param _baseOperators Address of baseOperators contract.
      */
-    function initialize(address _baseOperators) public initializer {
-        super.initialize(_baseOperators);
+    function initialize(address _baseOperators, address _whitelist) public initializer {
+        super.initialize(_baseOperators, _whitelist);
     }
 
     /**
@@ -90,8 +89,8 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
         public
         onlyOperator
         whenNotPaused
-        onlyWhitelisted(_receiver)
-        onlyWhitelisted(_confiscatee)
+        whenWhitelisted(_receiver)
+        whenWhitelisted(_confiscatee)
     {
         super._transfer(_confiscatee, _receiver, _amount);
      }
@@ -101,7 +100,7 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
      * @param _recipients Array of recipient addresses.
      * @param _values Array of amount to burn.
      */
-    function batchBurnFor(address[] memory _recipients, uint256[] memory _values) public returns (bool) {
+    function batchBurnFor(address[] memory _recipients, uint256[] memory _values) public {
         require(_recipients.length == _values.length, "EdgeToken: values and recipients are not equal.");
         require(_recipients.length <= BATCH_LIMIT, "EdgeToken: batch count is greater than BATCH_LIMIT.");
         for(uint256 i = 0; i < _recipients.length; i++) {
@@ -114,7 +113,7 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
      * @param _recipients Array of recipient addresses.
      * @param _values Array of amount to mint.
      */
-    function batchMint(address[] memory _recipients, uint256[] memory _values) public returns (bool) {
+    function batchMint(address[] memory _recipients, uint256[] memory _values) public {
         require(_recipients.length == _values.length, "EdgeToken: values and recipients are not equal.");
         require(_recipients.length <= BATCH_LIMIT, "EdgeToken: greater than BATCH_LIMIT.");
         for(uint256 i = 0; i < _recipients.length; i++) {
@@ -128,7 +127,7 @@ contract EdgeToken is ERC20, ERC20Detailed("Digital CHF", "DCHF", 2), Initializa
     * @param _receivers array addresses who's receiving the funds
     * @param _values array of values of funds being confiscated
     */
-    function batchConfiscate(address[] memory _confiscatees, address[] memory _receivers, uint256[] memory _values) public returns (bool) {
+    function batchConfiscate(address[] memory _confiscatees, address[] memory _receivers, uint256[] memory _values) public {
         require(_confiscatees.length == _values.length && _receivers.length == _values.length, "EdgeToken: values and recipients are not equal");
         require(_confiscatees.length <= BATCH_LIMIT, "EdgeToken: batch count is greater than BATCH_LIMIT");
         for(uint256 i = 0; i < _confiscatees.length; i++) {

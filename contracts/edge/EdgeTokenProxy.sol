@@ -1,9 +1,9 @@
 /**
  * @title EdgeTokenProxy
- * @author Connor Howe <connor.howe@sygnum.com>
+ * @author Team 3301 <team3301@sygnum.com>
  * @dev Proxies EdgeToken calls and enables EdgeToken upgradability.
 */
-pragma solidity 0.5.0;
+pragma solidity 0.5.12;
 
 import 'zos-lib/contracts/upgradeability/AdminUpgradeabilityProxy.sol';
 

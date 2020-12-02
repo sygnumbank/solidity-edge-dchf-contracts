@@ -1,33 +1,39 @@
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+require('dotenv').config();
+
 module.exports = {
   networks: {
     development: {
-     host: "127.0.0.1",     // Localhost (default: none)
-     port: 8545,            // Standard Ethereum port (default: none)
-     network_id: "*"        // Any network (default: none)
+      host: process.env.BLOCKCHAIN_HOST || "localhost",
+      port: process.env.BLOCKCHAIN_PORT || 8545,
+      network_id: "*", 
     },
-    coverage: {
-      host: "localhost",
-      network_id: "*",
-      port: 8555,         // <-- If you change this, also set the port option in .solcover.js.
-      gas: 0xfffffffffff, // <-- Use this high gas value
-      gasLimit: 0xfffffffffff, // <-- Use this high gas value
-      gasPrice: 0x01      // <-- Use this low gas price
-    },
+    ropsten: {
+      provider: () => new HDWalletProvider(process.env.ROPSTEN_MNENOMIC_PHRASE, process.env.ROPSTEN_PROVIDER),
+      gasPrice: 10000000000,
+      network_id: 3
+    }, 
+    goerli: {
+      provider: () => new HDWalletProvider(process.env.GOERLI_MNENOMIC_PHRASE, process.env.GOERLI_PROVIDER),
+      gasPrice: 10000000000,
+      network_id: 5
+    }, 
+    mainnet: {
+      provider: () => new HDWalletProvider(process.env.MAINNET_MNENOMIC_PHRASE, process.env.MAINNET_PROVIDER),
+      gasPrice: 10000000000,
+      network_id: "1"
+    }
   },
-
-  mocha: {
-  },
-
+  plugins: ["solidity-coverage", "verify-on-etherscan"],
   compilers: {
     solc: {
-      version: "0.5.0",    
+      version: "0.5.12",
       settings: {
         optimizer: {
           enabled: true,
           runs: 200
-        },
-     },
+        }
+     }
     }
   }
-
 }

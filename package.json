@@ -1,12 +1,7 @@
 {
   "name": "@sygnum/solidity-edge-dchf-contracts",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Solidity DCHF contracts used across the Sygnum platform.",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git@gitlab.com:sygnum/blockchain-engineering/ethereum/solidity-edge-contracts/solidity-edge-dchf-contracts.git"
-  },
   "keywords": [
     "solidity",
     "ethereum",
@@ -15,23 +10,39 @@
     "security",
     "sygnum"
   ],
-  "author": "Connor Howe <connor.howe@sygnum.com>",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:sygnum/blockchain-engineering/ethereum/solidity-edge-contracts/solidity-edge-dchf-contracts.git"
+  },
   "license": "MIT",
+  "author": "Sygnum Bank AG - Blockchain Engineering <team3301@sygnum.com>",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx concurrently --success \"first\" --kill-others \"ganache-cli -q -a 20 -e 1000\" \"truffle test\""
+  },
+  "dependencies": {
+    "@sygnum/solidity-base-contracts": "1.0.0",
+    "openzeppelin-solidity": "2.5.0",
+    "zos-lib": "2.4.3"
+  },
   "devDependencies": {
-    "@sygnum/solidity-base-contracts": "^0.0.4",
-    "@truffle/contract": "^4.1.11",
+    "@openzeppelin/test-helpers": "0.5.6",
+    "@openzeppelin/upgrades": "2.8.0",
+    "@truffle/contract": "4.1.11",
+    "@truffle/hdwallet-provider": "1.0.38",
     "chai": "4.2.0",
-    "dotenv": "8.1.0",
-    "ethereumjs-abi": "0.6.7",
-    "ganache-cli": "6.6.0",
-    "openzeppelin-solidity": "2.3.0",
-    "openzeppelin-test-helpers": "0.4.3",
-    "sol2uml": "1.1.12",
-    "truffle": "5.0.34",
-    "truffle-events": "0.0.7",
+    "dotenv": "8.2.0",
+    "eth-json-rpc-filters": "4.1.1",
+    "ethers": "4.0.45",
+    "ganache-cli": "6.9.1",
+    "sol2uml": "1.1.13",
+    "solidity-coverage": "0.7.9",
+    "truffle": "5.1.24",
     "truffle-flattener": "1.4.2",
-    "truffle-hdwallet-provider": "1.0.10",
-    "zos": "2.3.1"
+    "verify-on-etherscan": "1.2.1"
+  },
+  "engines": {
+    "node": ">=10.0.0 <11.0.0"
   },
   "publishConfig": {
     "@sygnum:registry": "https://gitlab.com/api/v4/projects/15856546/packages/npm/"

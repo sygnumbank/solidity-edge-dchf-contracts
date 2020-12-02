@@ -1,12 +1,12 @@
 /**
  * @title EdgeTokenV1
- * @author Connor Howe <connor.howe@sygnum.com> 
+ * @author Team 3301 <team3301@sygnum.com>
  * @dev Standard contract to display upgradability usability.  This is an example contract,
 *      that will not be used in production, to show how upgradability will be utilized.
 */
-pragma solidity 0.5.0;
+pragma solidity 0.5.12;
 
-import "../EdgeToken.sol";
+import "../../EdgeToken.sol";
 
 contract EdgeTokenV1 is EdgeToken {
     bool public newBool;
@@ -14,8 +14,8 @@ contract EdgeTokenV1 is EdgeToken {
     uint256 public newUint;
     bool public initializedV1;
 
-    function initialize(address _operatorsAddr, bool _newBool, address _newAddress, uint _newUint) public {
-        super.initialize(_operatorsAddr);
+    function initialize(address _operatorsAddr, address _whitelist, bool _newBool, address _newAddress, uint _newUint) public {
+        super.initialize(_operatorsAddr, _whitelist);
         initV1(_newBool, _newAddress, _newUint);
     }
 
