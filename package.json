@@ -33,7 +33,8 @@
       "npx eslint --fix"
     ],
     "contracts/**/*.sol": [
-      "npx solhint --fix && npx prettier --write"
+      "npx solhint --fix -w 0",
+      "npx prettier --write"
     ],
     "package.json": [
       "npx sort-package-json"
