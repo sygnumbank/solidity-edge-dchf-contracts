@@ -1,6 +1,6 @@
 {
   "name": "@sygnum/solidity-edge-dchf-contracts",
-  "version": "1.0.4",
+  "version": "1.0.0",
   "description": "Solidity DCHF contracts used across the Sygnum platform.",
   "keywords": [
     "solidity",
@@ -39,7 +39,7 @@
     ]
   },
   "dependencies": {
-    "@sygnum/solidity-base-contracts": "0.2.4",
+    "@sygnum/solidity-base-contracts": "1.0.0",
     "openzeppelin-solidity": "2.5.0",
     "zos-lib": "2.4.3"
   },

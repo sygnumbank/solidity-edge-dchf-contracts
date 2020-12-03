@@ -1,6 +1,6 @@
 /**
  * @title EdgeToken
- * @author Connor Howe <connor.howe@sygnum.com>
+ * @author Team 3301 <team3301@sygnum.com>
  * @dev EdgeToken is a ERC20 token that is upgradable and pausable.
  *      User addresses require to be whitelisted for transfers
  *      to execute.  Addresses can be frozen, and funds from

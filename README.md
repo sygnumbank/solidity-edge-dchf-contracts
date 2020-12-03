@@ -1,6 +1,6 @@
 # Solidity-Edge-DCHF-Contracts
 
-**Secure Edge smart contracts used by other Sygnum contracts.** Build on a solid foundation of community-vetted code, utilizing [open-zeppelin industry standards](https://github.com/OpenZeppelin/openzeppelin-contracts). 
+**Secure Edge smart contracts used by other Sygnum contracts.** Build on a solid foundation of community-vetted code, utilizing [OpenZeppelin industry standards](https://github.com/OpenZeppelin/openzeppelin-contracts). 
 
  * [EdgeToken](contracts/edge/EdgeToken.sol) is build using [function overloading](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#function-overloading) principles from [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science) within [ERC20 funcions](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/edge/ERC20/).
  * Utilizes [role-based permissioning](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/role) scheme from [solidity-base-contracts repo](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/).
@@ -13,7 +13,7 @@ Note: for now this repo only works with NodeJS 10.
 
 ### Installation
 
-Obtain a [gitlab access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
+Obtain a [gitlab access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html). Using the `api` scope should suffice.
 
 ```console
 # Set URL for your scoped packages.
@@ -53,18 +53,16 @@ To keep your system secure, you should **always** use the installed code as-is, 
 First, install all required packages:  
 `npm install`  
 
-Then, in one terminal run:  
-`npx ganache-cli -q -a 20 -e 1000`  
-In another terminal run:  
-`npx truffle test`
+Then run:
+`npm test`
 
 ## Security
 
-This project is maintained by [Sygnum](https://www.sygnum.com/), and developed following our high standards for code quality and security. Please use common sense when doing anything that deals with real money! We take no responsibility for your implementation decisions and any security problems you might experience.
+This project is maintained by [Sygnum](https://www.sygnum.com/), and developed following our high standards for code quality and security. We take no responsibility for your implementation decisions and any security problems you might experience.
 
-The latest audit was done on November 2019 on version 0.0.1.
+The latest audit was done on November 2020 at commit hash 0bf2c0e1.
 
-Please report any security issues you find to connor.howe@sygnum.com.
+Please report any security issues you find to team3301@sygnum.com.
 
 ## License
 
