@@ -1,6 +1,6 @@
 {
   "name": "@sygnum/solidity-edge-dchf-contracts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Solidity DCHF contracts used across the Sygnum platform.",
   "keywords": [
     "solidity",
@@ -21,7 +21,7 @@
     "test": "npx concurrently --success \"first\" --kill-others \"ganache-cli -q -a 20 -e 1000\" \"truffle test\""
   },
   "dependencies": {
-    "@sygnum/solidity-base-contracts": "1.0.0",
+    "@sygnum/solidity-base-contracts": "1.0.1",
     "openzeppelin-solidity": "2.5.0",
     "zos-lib": "2.4.3"
   },
