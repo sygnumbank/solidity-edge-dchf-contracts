@@ -331,7 +331,6 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
                 );
               });
               describe("when paused", async () => {
-                0;
                 beforeEach(async () => {
                   await this.token.pause({ from: operator });
                 });
