@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 require("dotenv").config();
 

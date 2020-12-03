@@ -25,7 +25,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:solhint -- --max-warnings 0 && lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
@@ -33,7 +33,7 @@
       "npx eslint --fix"
     ],
     "contracts/**/*.sol": [
-      "npx prettier --write"
+      "npx solhint --fix && npx prettier --write"
     ],
     "package.json": [
       "npx sort-package-json"

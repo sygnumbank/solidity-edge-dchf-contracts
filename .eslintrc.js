@@ -39,5 +39,6 @@ module.exports = {
     "prefer-destructuring": ["error", { array: false, object: true }],
     "no-trailing-spaces": "off",
     "no-console": "off",
+    "import/no-extraneous-dependencies": ["error", { devDependencies: ["*.js", "**/*.js"] }],
   },
 };
