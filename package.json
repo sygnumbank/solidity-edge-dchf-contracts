@@ -18,7 +18,7 @@
   "author": "Sygnum Bank AG - Blockchain Engineering <team3301@sygnum.com>",
   "main": "index.js",
   "scripts": {
-    "lint:eslint": "npx eslint --fix 'test/**/*.js' truffle-config.js",
+    "lint:eslint": "npx eslint --fix 'test/**/*.js' truffle-config.js index.js",
     "lint:prettier": "npx prettier --write 'contracts/**/*.sol' 'migrations/**/*.js' 'test/**/*.js'",
     "lint:solhint": "npx solhint --fix 'contracts/**/*.sol'",
     "test": "npx concurrently --success \"first\" --kill-others \"ganache-cli -q -a 20 -e 1000\" \"truffle test\""
