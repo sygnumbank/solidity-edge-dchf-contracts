@@ -33,7 +33,6 @@ module.exports = {
     "max-len": "off",
     "no-underscore-dangle": "off",
     "arrow-parens": ["error", "always"],
-    "arrow-body-style": ["error", "always"],
     "no-unused-vars": ["error", { args: "none" }],
     "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
     "prefer-destructuring": ["error", { array: false, object: true }],
