@@ -1,12 +1,12 @@
 /**
  * @title EdgeTokenConstructor
- * @author Connor Howe <connor.howe@sygnum.com> 
+ * @author Team 3301 <team3301@sygnum.com>
  * @dev This contract will be used in the first version of upgrading the EdgeToken to mitigate
  *      variables initialized in EdgeToken.sol constructor '_name, _symbol, _decimals' that are
  *      not initialized inside of EdgeTokenProxy.sol.  Additionally, as '_name, symbol, _decimals'
  *      were declared private, the getter functions 'name(), symbol(), decimals()' required to be
  *      overloaded to point to the correct/new/overloaded variables.
-*/
+ */
 pragma solidity 0.5.12;
 
 import "../../../EdgeToken.sol";
@@ -18,11 +18,11 @@ contract EdgeTokenConstructorUpgrade is EdgeToken {
     bool public initializedConstructorUpgrade;
 
     function initializeConstructor() public {
-      require(!initializedConstructorUpgrade, "EdgeTokenConstructorUpgrade: already initialized");
-      _name = "Digital CHF";
-      _symbol = "DCHF";
-      _decimals = 2;
-      initializedConstructorUpgrade = true;
+        require(!initializedConstructorUpgrade, "EdgeTokenConstructorUpgrade: already initialized");
+        _name = "Digital CHF";
+        _symbol = "DCHF";
+        _decimals = 2;
+        initializedConstructorUpgrade = true;
     }
 
     /**
