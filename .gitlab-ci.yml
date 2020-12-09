@@ -1,6 +1,6 @@
 include:
   - project: 'sygnum/infra/templates'
-    ref: 'v0.13.2'
+    ref: 'v0.13.3'
     file: '/gitlab/.ethereum-contracts-ci-template.yml'
 
 stages:
@@ -22,11 +22,8 @@ solidity-coverage:
 solidity-uml:
   extends: .solidity-uml
 
-solidity-mythril:
-  extends: .solidity-mythril
-
-solidity-securify:
-  extends: .solidity-securify
+code-lint:
+  extends: .code-lint
 
 solidity-slither:
   extends: .solidity-slither
