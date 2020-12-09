@@ -6,7 +6,7 @@
  *      not initialized inside of EdgeTokenProxy.sol.  Additionally, as '_name, symbol, _decimals'
  *      were declared private, the getter functions 'name(), symbol(), decimals()' required to be
  *      overloaded to point to the correct/new/overloaded variables.
-*/
+ */
 pragma solidity 0.5.12;
 
 import "../../../EdgeToken.sol";
@@ -18,11 +18,11 @@ contract EdgeTokenConstructorUpgrade is EdgeToken {
     bool public initializedConstructorUpgrade;
 
     function initializeConstructor() public {
-      require(!initializedConstructorUpgrade, "EdgeTokenConstructorUpgrade: already initialized");
-      _name = "Digital CHF";
-      _symbol = "DCHF";
-      _decimals = 2;
-      initializedConstructorUpgrade = true;
+        require(!initializedConstructorUpgrade, "EdgeTokenConstructorUpgrade: already initialized");
+        _name = "Digital CHF";
+        _symbol = "DCHF";
+        _decimals = 2;
+        initializedConstructorUpgrade = true;
     }
 
     /**
