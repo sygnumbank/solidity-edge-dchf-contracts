@@ -32,7 +32,7 @@ contract EdgeToken is
     event Burned(address indexed burner, uint256 value);
     event BurnedFor(address indexed burner, address indexed account, uint256 value);
 
-    uint16 constant BATCH_LIMIT = 256;
+    uint16 internal constant BATCH_LIMIT = 256;
 
     /**
      * @dev Initialization instead of constructor, only called once.
