@@ -18,9 +18,14 @@
   "author": "Sygnum Bank AG - Blockchain Engineering <team3301@sygnum.com>",
   "main": "index.js",
   "scripts": {
-    "lint:eslint": "npx eslint --fix 'test/**/*.js' 'config/**/*.js' truffle-config.js index.js",
-    "lint:prettier": "npx prettier --write 'contracts/**/*.sol' 'config/**/*.js' 'migrations/**/*.js' 'test/**/*.js'",
-    "lint:solhint": "npx solhint --fix 'contracts/**/*.sol'",
+    "lint": "npm run lint:prettier && npm run lint:eslint && npm run lint:solhint",
+    "lint:eslint": "npx eslint 'test/**/*.js' 'config/**/*.js' truffle-config.js index.js",
+    "lint:eslint:fix": "npm run lint:eslint -- --fix",
+    "lint:fix": "npm run lint:prettier:fix && npm run lint:eslint:fix && npm run lint:solhint:fix",
+    "lint:prettier": "npx prettier --check 'contracts/**/*.sol' 'config/**/*.js' 'migrations/**/*.js' 'test/**/*.js'",
+    "lint:prettier:fix": "npx prettier --write 'contracts/**/*.sol' 'config/**/*.js' 'migrations/**/*.js' 'test/**/*.js'",
+    "lint:solhint": "npx solhint -w 0 'contracts/**/*.sol'",
+    "lint:solhint:fix": "npm run lint:solhint -- --fix",
     "test": "npx concurrently --success \"first\" --kill-others \"ganache-cli -q -a 20 -e 1000\" \"truffle test\""
   },
   "husky": {
