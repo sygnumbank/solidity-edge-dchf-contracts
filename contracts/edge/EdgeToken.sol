@@ -126,7 +126,7 @@ contract EdgeToken is
     }
 
     /**
-     * @dev Batch confiscate to a macimum of 255 addresses.
+     * @dev Batch confiscate to a maximum of 255 addresses.
      * @param _confiscatees array addresses who's funds are being confiscated
      * @param _receivers array addresses who's receiving the funds
      * @param _values array of values of funds being confiscated
