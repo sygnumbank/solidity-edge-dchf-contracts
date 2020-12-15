@@ -1,6 +1,6 @@
 # Solidity-Edge-DCHF-Contracts
 
-**Secure Edge smart contracts used by other Sygnum contracts.** Build on a solid foundation of community-vetted code, utilizing [OpenZeppelin industry standards](https://github.com/OpenZeppelin/openzeppelin-contracts). 
+**Secure Edge smart contracts backing Sygnum's regulated DCHF token.** Build on a solid foundation of community-vetted code, utilizing [OpenZeppelin industry standards](https://github.com/OpenZeppelin/openzeppelin-contracts).
 
  * [EdgeToken](contracts/edge/EdgeToken.sol) is build using [function overloading](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#function-overloading) principles from [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science) within [ERC20 funcions](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/edge/ERC20/).
  * Utilizes [role-based permissioning](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/role) scheme from [solidity-base-contracts repo](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/).
@@ -63,7 +63,3 @@ This project is maintained by [Sygnum](https://www.sygnum.com/), and developed f
 The latest audit was done on November 2020 at commit hash 0bf2c0e1.
 
 Please report any security issues you find to team3301@sygnum.com.
-
-## License
-
-Solidity-Edge-Dchf-Contracts is released under the [MIT License](LICENSE).
