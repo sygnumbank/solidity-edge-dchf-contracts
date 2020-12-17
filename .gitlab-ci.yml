@@ -1,6 +1,6 @@
 include:
   - project: 'sygnum/infra/templates'
-    ref: 'v0.13.2'
+    ref: 'v0.13.3'
     file: '/gitlab/.ethereum-contracts-ci-template.yml'
 
 stages:
