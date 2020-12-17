@@ -22,6 +22,9 @@ solidity-coverage:
 solidity-uml:
   extends: .solidity-uml
 
+code-lint:
+  extends: .code-lint
+
 solidity-mythril:
   extends: .solidity-mythril
 
