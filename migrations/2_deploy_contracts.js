@@ -34,12 +34,12 @@ module.exports = function (deployer, network) {
     .then((edgeTokenBlockUnblockTraderUpgrade) => {
       this.edgeTokenBlockUnblockTraderUpgrade = edgeTokenBlockUnblockTraderUpgrade;
 
-      let initializeData = encodeCall.default("initialize", ["address"], [BASE_OPERATORS_CONTRACT_ADDRESS]);
+      const initializeData = encodeCall.default("initialize", ["address"], [BASE_OPERATORS_CONTRACT_ADDRESS]);
 
       return deployer.deploy(EdgeTokenProxy, this.edgeToken.address, PROXY_ADMIN, initializeData);
     })
     .then(async (edgeTokenProxy) => {
-      if (network == "goerli") {
+      if (network === "goerli") {
         this.edgeTokenProxy = edgeTokenProxy;
         console.log("edgeTokenProxy", edgeTokenProxy.address);
 

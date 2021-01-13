@@ -25,6 +25,12 @@ solidity-uml:
 code-lint:
   extends: .code-lint
 
+solidity-mythril:
+  extends: .solidity-mythril
+
+solidity-securify:
+  extends: .solidity-securify
+
 solidity-slither:
   extends: .solidity-slither
 
