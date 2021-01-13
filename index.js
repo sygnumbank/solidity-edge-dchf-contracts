@@ -1,15 +1,14 @@
-const contract = require("@truffle/contract");
-
-const edgeTokenJson = require('./build/contracts/EdgeToken.json')
-const EdgeToken = contract(edgeTokenJson)
-
-const edgeTokenProxy = require('./build/contracts/EdgeTokenProxy.json')
-const EdgeTokenProxy = contract(edgeTokenProxy)
-
-EdgeToken.setProvider('http://localhost:8545')
-EdgeTokenProxy.setProvider('http://localhost:8545')
+const TruffleContract = require("@truffle/contract");
+const edgeTokenJson = require("./build/contracts/EdgeToken.json");
+const edgeTokenProxyJson = require("./build/contracts/EdgeTokenProxy.json");
 
 module.exports = {
-    EdgeToken,
-    EdgeTokenProxy
-}
+  load: (provider) => {
+    const contracts = {
+      EdgeToken: TruffleContract(edgeTokenJson),
+      EdgeTokenProxy: TruffleContract(edgeTokenProxyJson),
+    };
+    Object.values(contracts).forEach((i) => i.setProvider(provider));
+    return contracts;
+  },
+};

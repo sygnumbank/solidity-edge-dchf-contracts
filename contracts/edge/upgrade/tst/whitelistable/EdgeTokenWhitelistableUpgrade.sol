@@ -13,8 +13,8 @@ contract EdgeTokenWhitelistableUpgrade is EdgeTokenConstructorUpgrade {
     bool public initializedWhitelistableUpgrade;
 
     function initializeWhitelist(address _whitelist) public {
-      require(!initializedWhitelistableUpgrade, "EdgeTokenWhitelistableUpgrade: already initialized");
-      _setWhitelistContract(_whitelist);
-      initializedWhitelistableUpgrade = true;
+        require(!initializedWhitelistableUpgrade, "EdgeTokenWhitelistableUpgrade: already initialized");
+        _setWhitelistContract(_whitelist);
+        initializedWhitelistableUpgrade = true;
     }
 }
