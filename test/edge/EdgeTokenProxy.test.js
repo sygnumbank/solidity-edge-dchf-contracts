@@ -1,4 +1,4 @@
-const { BaseOperators, Whitelist, MINT } = require("@sygnum/solidity-base-contracts");
+const { load, MINT } = require("@sygnum/solidity-base-contracts");
 
 const {
   getAdmin,
@@ -14,6 +14,8 @@ const {
   newUint,
   ZERO_ADDRESS,
 } = require("../common");
+
+const { BaseOperators, Whitelist } = load(EdgeToken.currentProvider);
 
 contract("EdgeTokenProxy", ([owner, admin, operator, proxyAdmin, proxyAdminNew, attacker, whitelisted, newAddress]) => {
   beforeEach(async () => {

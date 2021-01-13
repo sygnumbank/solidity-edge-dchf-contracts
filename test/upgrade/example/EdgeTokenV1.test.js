@@ -1,5 +1,7 @@
-const { BaseOperators, Whitelist } = require("@sygnum/solidity-base-contracts");
+const { load } = require("@sygnum/solidity-base-contracts");
 const { expectRevert, EdgeTokenV1, newBool, newUint, ZERO_ADDRESS } = require("../../common");
+
+const { BaseOperators, Whitelist } = load(EdgeTokenV1.currentProvider);
 
 contract("EdgeTokenV1", ([admin, newAddress]) => {
   beforeEach(async () => {

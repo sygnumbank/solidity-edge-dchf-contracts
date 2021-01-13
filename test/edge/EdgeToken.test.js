@@ -1,6 +1,8 @@
-const { BaseOperators, Whitelist, THREE_HUNDRED_ADDRESS, THREE_HUNDRED_NUMBERS, MINT, BURN, TRANSFER } = require("@sygnum/solidity-base-contracts");
+const { load, THREE_HUNDRED_ADDRESS, THREE_HUNDRED_NUMBERS, MINT, BURN, TRANSFER } = require("@sygnum/solidity-base-contracts");
 
 const { expectRevert, EdgeToken, ZERO_ADDRESS, TWO_ADDRESSES } = require("../common");
+
+const { BaseOperators, Whitelist } = load(EdgeToken.currentProvider);
 
 contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whitelisted2, frozen, frozen1, notWhitelisted, attacker]) => {
   beforeEach(async () => {
