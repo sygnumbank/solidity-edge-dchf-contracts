@@ -7,6 +7,7 @@ module.exports = {
       host: process.env.BLOCKCHAIN_HOST || "localhost",
       port: process.env.BLOCKCHAIN_PORT || 8545,
       network_id: "*",
+      disableConfirmationListener: true,
     },
     ropsten: {
       provider: () => {
@@ -41,5 +42,9 @@ module.exports = {
         },
       },
     },
+  },
+  mocha: {
+    enableTimeouts: false,
+    before_timeout: 600000,
   },
 };
