@@ -47,7 +47,4 @@ module.exports = {
     enableTimeouts: false,
     before_timeout: 600000,
   },
-  api_keys: {
-    etherscan: process.env.ETHERSCAN_API_KEY,
-  },
 };
