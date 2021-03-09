@@ -2,7 +2,7 @@
 
 **Secure Edge smart contracts backing Sygnum's regulated DCHF token.** Built on a solid foundation of community-vetted code, utilizing [OpenZeppelin industry standards](https://github.com/OpenZeppelin/openzeppelin-contracts).
 
- * [EdgeToken](contracts/edge/EdgeToken.sol) is build using [function overloading](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#function-overloading) principles from [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_computer_science) within [ERC20 funcions](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/edge/ERC20/).
+ * [EdgeToken](contracts/edge/EdgeToken.sol) is build using [function overloading](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#function-overloading) principles from [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_computer_science) within [ERC20 functions](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/edge/ERC20/).
  * Utilizes [role-based permissioning](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/role) scheme and a [whitelist](ethereum/solidity-base-contracts/contracts/helpers/Whitelist.sol) from [solidity-base-contracts repo](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/) to ensure a setup in line with regulatory requirements.
  * Exportable [EdgeToken](contracts/edge/EdgeToken.sol) and [EdgeTokenProxy](contracts/edge/EdgeTokenProxy.sol) contract instances usable by other [Gitlab NPM Packages](https://docs.gitlab.com/ee/user/packages/npm_registry/).
  * Features a [blocked balance](ethereum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Blockable.sol) in addition to the standard ERC20 balance (which becomes the available balance) which is useful to block tokens (e.g. for orders on secondary markets) without the need to move them into a separate escrow contract.
@@ -10,7 +10,7 @@
 
 ## Overview
 
-The Sygnum EDGE smart contracts are built and designed to enable Ethereum based stablecoins. The [EdgeToken](contracts/edge/EdgeToken.sol) is an ERC20 compatible token which is extended with additional functionality that makes it suitable to operate in a regulated environment. It comes with an integrated role-based model and a whitelist to ensure
+The Sygnum EDGE smart contracts are built and designed to enable Ethereum based stablecoins. The [EdgeToken](contracts/edge/EdgeToken.sol) is an ERC20 compatible token which is extended with additional functionality that makes it suitable to operate in a regulated environment. It comes with an integrated role-based model and a whitelist to ensure a setup compliant with regulatory requirements.
 
 [EdgeToken](contracts/edge/EdgeToken.sol) has been specifically designed to support the Digital CHF (DCHF), Sygnum Bank's first stablecoin which is pegged to the Swiss Franc. DCHF can be purchased in a one-to-one exchange for CHF and are redeemable one-to-one for CHF. Upon purchase, DCHF tokens are minted and added to the token supply. Upon redemption, DCHF tokens are burned from the supply. The Digital CHF is available for purchase on Sygnum's banking platform.
 
