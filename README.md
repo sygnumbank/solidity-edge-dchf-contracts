@@ -42,6 +42,8 @@ An overview of the most important extensions of the EDGE token can be found belo
 
 ### Installation
 
+Note: for now this repo only works with NodeJS 10.
+
 Obtain a [gitlab access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html). Using the `api` scope should suffice.
 
 ```console
@@ -58,8 +60,6 @@ Now you are able to install and use all private npm packages within the @sygnum 
 ```console
 npm i --save-dev @sygnum/solidity-edge-dchf-contracts
 ```
-
-Note: for now this repo only works with NodeJS 10.
 
 ### Usage
 
