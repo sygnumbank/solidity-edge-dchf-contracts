@@ -1,17 +1,48 @@
 # Solidity-Edge-DCHF-Contracts
 
-**Secure Edge smart contracts backing Sygnum's regulated DCHF token.** Build on a solid foundation of community-vetted code, utilizing [OpenZeppelin industry standards](https://github.com/OpenZeppelin/openzeppelin-contracts).
+**Secure Edge smart contracts backing Sygnum's regulated DCHF token.** Built on a solid foundation of community-vetted code, utilizing [OpenZeppelin industry standards](https://github.com/OpenZeppelin/openzeppelin-contracts).
 
- * [EdgeToken](contracts/edge/EdgeToken.sol) is build using [function overloading](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#function-overloading) principles from [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science) within [ERC20 funcions](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/edge/ERC20/).
- * Utilizes [role-based permissioning](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/role) scheme from [solidity-base-contracts repo](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/).
+ * [EdgeToken](contracts/edge/EdgeToken.sol) is build using [function overloading](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#function-overloading) principles from [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_computer_science) within [ERC20 functions](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/edge/ERC20/).
+ * Utilizes [role-based permissioning](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/-/tree/develop/contracts/role) scheme and a [whitelist](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/-/blob/develop/contracts/helpers/Whitelist.sol) from [solidity-base-contracts repo](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/) to ensure a setup in line with regulatory requirements.
  * Exportable [EdgeToken](contracts/edge/EdgeToken.sol) and [EdgeTokenProxy](contracts/edge/EdgeTokenProxy.sol) contract instances usable by other [Gitlab NPM Packages](https://docs.gitlab.com/ee/user/packages/npm_registry/).
+ * Features a [blocked balance](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/-/blob/develop/contracts/helpers/ERC20/ERC20Blockable.sol) in addition to the standard ERC20 balance (which becomes the available balance) which is useful to block tokens (e.g. for orders on secondary markets) without the need to move them into a separate escrow contract.
  * Audited by [Quantstamp](https://quantstamp.com/) with no major findings.
 
 ## Overview
 
-Note: for now this repo only works with NodeJS 10.
+The Sygnum EDGE smart contracts are built and designed to enable Ethereum based stablecoins. The [EdgeToken](contracts/edge/EdgeToken.sol) is an ERC20 compatible token which is extended with additional functionality that makes it suitable to operate in a regulated environment. It comes with an integrated role-based model and a whitelist to ensure a setup compliant with regulatory requirements.
+
+[EdgeToken](contracts/edge/EdgeToken.sol) has been specifically designed to support the Digital CHF (DCHF), Sygnum Bank's first stablecoin which is pegged to the Swiss Franc. DCHF can be purchased in a one-to-one exchange for CHF and are redeemable one-to-one for CHF. Upon purchase, DCHF tokens are minted and added to the token supply. Upon redemption, DCHF tokens are burned from the supply. The Digital CHF is available for purchase on Sygnum's banking platform.
+
+The token comes with a [proxy](contracts/edge/EdgeTokenProxy.sol) contract, which enables a future-proof setup with the possibility upgrade the token functionality without the need to deploy a new contract.
+
+The [EdgeToken](contracts/edge/EdgeToken.sol) is initialized with a whitelist contract and several role contracts (base, trader, blockers).
+
+### Functions
+
+An overview of the most important extensions of the EDGE token can be found below.
+
+`mint`: increase the supply by minting a specified amount of tokens to an address. Alternatively, `batchMint` can be used to mint up to 256 addresses in a single batch. Can only be called by Operator or System.
+
+`burn`: decrease the supply by a specified amount from the account of msg.sender. Alternatively, `burnFor` can be used to burn an amount of tokens for a specific address. Can only be called by Operator or System.
+
+`pause`: halt all interactions with the smart contract by pausing the token. Can only be called by Operator.
+
+`unpause`: re-enable interactions with the smart contract by unpausing a paused token. Can only be called by Operator.
+
+`freeze`: stop a particular address from interacting with the smart contract. Can only be called by Operator. This function can be used to carry out enforcements of court rulings or other situations where regulations require intervention of the service provider (e.g. AML).
+
+`unfreeze`: re-enable a particular frozen address to interact with the smart contract. Can only be called by Operator.
+
+`confiscate`: transfer a specified amount of tokens from one address to a target address. Alternatively, `batchConfiscate` can be used to combine up to 256 confiscations in a single batch. Can only be called by Operator. This function can be used to carry out enforcements of court rulings or other situations where regulations require intervention of the service provider (e.g. AML).
+
+`block`: transfer a specified amount of tokens from an account’s available balance ( balanceOf() ) to its blocked balance ( blockedBalanceOf() ). Can only be called by Blocker or Operator. This function can be used to block funds which are “in order” on a secondary market or held in escrow for other purposes (e.g. lending services), while at the same time ensuring that the tokens remain in the account and name of the token holder.
+
+`unblock`: transfer a specified amount of tokens from an account’s blocked balance ( `blockedBalanceOf()` ) to its available balance ( `balanceOf()` ). Can only be called by Blocker or Operator. 
 
 ### Installation
+
+Note: for now this repo only works with NodeJS 10.
 
 Obtain a [gitlab access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html). Using the `api` scope should suffice.
 
@@ -29,7 +60,6 @@ Now you are able to install and use all private npm packages within the @sygnum 
 ```console
 npm i --save-dev @sygnum/solidity-edge-dchf-contracts
 ```
-
 
 ### Usage
 
