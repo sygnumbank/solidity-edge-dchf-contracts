@@ -1,4 +1,4 @@
-[Mirrored from our internal VCS @ commit hash d5e14ea0732f12958d647928bdc7110533006219]
+[Mirrored from our internal VCS @ commit hash d5e14ea0732f12958d647928bdc7110533006219 - some internal links may not work]
 # Solidity-Edge-DCHF-Contracts
 
 **Secure Edge smart contracts backing Sygnum's regulated DCHF token.** Built on a solid foundation of community-vetted code, utilizing [OpenZeppelin industry standards](https://github.com/OpenZeppelin/openzeppelin-contracts).
