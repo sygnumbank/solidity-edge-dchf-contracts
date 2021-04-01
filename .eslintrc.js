@@ -7,6 +7,7 @@ module.exports = {
     node: true,
     mocha: true,
   },
+  test
   globals: {
     artifacts: "readonly",
     contract: "readonly",
