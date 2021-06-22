@@ -39,6 +39,7 @@ module.exports = {
           providerOrUrl: process.env.MUMBAI_PROVIDER,
           chainId: 80001,
         }),
+      gasPrice: 1000000000,
       network_id: 80001,
       confirmations: 2,
       timeoutBlocks: 200,

@@ -54,7 +54,7 @@
   "devDependencies": {
     "@openzeppelin/test-helpers": "0.5.6",
     "@openzeppelin/upgrades": "2.8.0",
-    "@truffle/hdwallet-provider": "1.2.3",
+    "@truffle/hdwallet-provider": "1.4.0",
     "chai": "4.2.0",
     "concurrently": "^5.3.0",
     "dotenv": "8.2.0",
