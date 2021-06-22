@@ -31,7 +31,14 @@ module.exports = {
       network_id: "1",
     },
     polygon_testnet: {
-      provider: () => new HDWalletProvider(process.env.MUMBAI_MNEMONIC_PHRASE, process.env.MUMBAI_PROVIDER),
+      provider: () =>
+        new HDWalletProvider({
+          mnemonic: {
+            phrase: process.env.MUMBAI_MNEMONIC_PHRASE,
+          },
+          providerOrUrl: process.env.MUMBAI_PROVIDER,
+          chainId: 80001,
+        }),
       network_id: 80001,
       confirmations: 2,
       timeoutBlocks: 200,
