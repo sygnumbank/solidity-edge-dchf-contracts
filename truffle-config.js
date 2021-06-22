@@ -30,6 +30,14 @@ module.exports = {
       gasPrice: 10000000000,
       network_id: "1",
     },
+    polygon_testnet: {
+      provider: () => new HDWalletProvider(process.env.MUMBAI_MNEMONIC_PHRASE, process.env.MUMBAI_PROVIDER),
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true,
+      chainId: 80001,
+    },
   },
   plugins: ["solidity-coverage", "verify-on-etherscan"],
   compilers: {
