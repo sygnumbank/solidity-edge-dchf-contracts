@@ -56,10 +56,10 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
                 await expectRevert(this.token.mint(whitelisted, 0, { from: operator }), "ERC20Mintable: amount has to be greater than 0");
               });
               it("revert mint empty address", async () => {
-                await expectRevert(this.token.mint(ZERO_ADDRESS, MINT, { from: operator }), "Whitelistable: account is not whitelisted."); // Cannot add to whitelist before minting
+                await expectRevert(this.token.mint(ZERO_ADDRESS, MINT, { from: operator }), "Whitelistable: account is not whitelisted"); // Cannot add to whitelist before minting
               });
               it("revert attacker mint", async () => {
-                await expectRevert(this.token.mint(whitelisted, MINT, { from: attacker }), "Operatorable: caller does not have the operator role nor system.");
+                await expectRevert(this.token.mint(whitelisted, MINT, { from: attacker }), "Operatorable: caller does not have the operator role nor system");
               });
             });
             describe("functional", () => {
@@ -102,7 +102,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
               });
               describe("non-functional", () => {
                 it("revert system mint frozen", async () => {
-                  await expectRevert(this.token.mint(frozen, MINT, { from: system }), "EdgeToken: Account must be frozen if system calling.");
+                  await expectRevert(this.token.mint(frozen, MINT, { from: system }), "EdgeToken: Account must be frozen if system calling");
                 });
               });
             });
@@ -142,7 +142,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
           });
           describe("non-functional", () => {
             it("revert address count and value count not equal", async () => {
-              await expectRevert(this.token.batchMint(TWO_ADDRESSES, [MINT], { from: operator }), "EdgeToken: values and recipients are not equal.");
+              await expectRevert(this.token.batchMint(TWO_ADDRESSES, [MINT], { from: operator }), "EdgeToken: values and recipients are not equal");
             });
             it("revert mint to over 256 addresses", async () => {
               await expectRevert(this.token.batchMint(THREE_HUNDRED_ADDRESS, THREE_HUNDRED_NUMBERS, { from: operator }), "EdgeToken: greater than BATCH_LIMIT");
@@ -178,16 +178,16 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
                   await expectRevert(this.token.burnFor(notWhitelisted, BURN, { from: operator }), "Whitelistable: account is not whitelisted");
                 });
                 it("revert from attacker", async () => {
-                  await expectRevert(this.token.burnFor(whitelisted, BURN, { from: attacker }), "Operatorable: caller does not have the operator role.");
+                  await expectRevert(this.token.burnFor(whitelisted, BURN, { from: attacker }), "Operatorable: caller does not have the operator role");
                 });
                 it("revert for empty address", async () => {
                   await expectRevert(this.token.burnFor(ZERO_ADDRESS, BURN, { from: operator }), "Whitelistable: account is not whitelisted");
                 });
                 it("revert for over burn balance", async () => {
-                  await expectRevert(this.token.burnFor(whitelisted, this.overflow, { from: operator }), "ERC20: burn amount exceeds balance.");
+                  await expectRevert(this.token.burnFor(whitelisted, this.overflow, { from: operator }), "ERC20: burn amount exceeds balance");
                 });
                 it("revert system burnFor", async () => {
-                  await expectRevert(this.token.burnFor(whitelisted, BURN, { from: system }), "Operatorable: caller does not have the operator role.");
+                  await expectRevert(this.token.burnFor(whitelisted, BURN, { from: system }), "Operatorable: caller does not have the operator role");
                 });
               });
               describe("functional", () => {
@@ -204,7 +204,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
             describe("frozen", () => {
               describe("non-functional", () => {
                 it("revert system burnFor frozen", async () => {
-                  await expectRevert(this.token.burnFor(frozen, BURN, { from: system }), "Operatorable: caller does not have the operator role.");
+                  await expectRevert(this.token.burnFor(frozen, BURN, { from: system }), "Operatorable: caller does not have the operator role");
                 });
               });
               describe("functional", () => {
@@ -225,7 +225,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
               describe("non-functional", () => {
                 describe("revert operator burnFor", () => {
                   beforeEach(async () => {
-                    await expectRevert(this.token.burnFor(frozen, BURN, { from: operator }), "Pausable: paused.");
+                    await expectRevert(this.token.burnFor(frozen, BURN, { from: operator }), "Pausable: paused");
                   });
                 });
               });
@@ -242,7 +242,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
                 });
                 describe("non-functional", () => {
                   it("revert address count and value count not equal", async () => {
-                    await expectRevert(this.token.batchBurnFor(TWO_ADDRESSES, [BURN], { from: operator }), "EdgeToken: values and recipients are not equal.");
+                    await expectRevert(this.token.batchBurnFor(TWO_ADDRESSES, [BURN], { from: operator }), "EdgeToken: values and recipients are not equal");
                   });
                   it("revert burnFor over 256 addresses", async () => {
                     await expectRevert(
@@ -271,7 +271,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
         describe("burn", () => {
           describe("non-functional", () => {
             it("revert for over burn balance", async () => {
-              await expectRevert(this.token.burn(this.overflow, { from: whitelisted }), "ERC20: burn amount exceeds balance.");
+              await expectRevert(this.token.burn(this.overflow, { from: whitelisted }), "ERC20: burn amount exceeds balance");
             });
             it("revert for notWhitelisted", async () => {
               await expectRevert(this.token.burn(BURN, { from: notWhitelisted }), "Whitelistable: account is not whitelisted");
@@ -329,7 +329,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
               it("revert confiscate not enough balance", async () => {
                 await expectRevert(
                   this.token.confiscate(whitelisted2, whitelisted, this.confiscate, { from: operator }),
-                  "ERC20: transfer amount exceeds balance."
+                  "ERC20: transfer amount exceeds balance"
                 );
               });
               describe("when paused", async () => {
@@ -411,7 +411,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
               await expectRevert(this.token.transfer(ZERO_ADDRESS, TRANSFER, { from: whitelisted }), "Whitelistable: account is not whitelisted");
             });
             it("revert transfer more than balance", async () => {
-              await expectRevert(this.token.transfer(whitelisted1, MINT + TRANSFER, { from: whitelisted }), "ERC20: transfer amount exceeds balance.");
+              await expectRevert(this.token.transfer(whitelisted1, MINT + TRANSFER, { from: whitelisted }), "ERC20: transfer amount exceeds balance");
             });
           });
           describe("functional", async () => {
@@ -610,7 +610,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
               it("revert overflow transferFrom", async () => {
                 await expectRevert(
                   this.token.transferFrom(whitelisted1, whitelisted2, this.overflow, { from: whitelisted }),
-                  "ERC20: transfer amount exceeds balance."
+                  "ERC20: transfer amount exceeds balance"
                 );
               });
               describe("paused decreaseAllowance", () => {
@@ -697,7 +697,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
                     it("revert overflow transferFrom", async () => {
                       await expectRevert(
                         this.token.transferFrom(whitelisted1, whitelisted2, this.overflow, { from: whitelisted }),
-                        "ERC20: transfer amount exceeds balance."
+                        "ERC20: transfer amount exceeds balance"
                       );
                     });
                     describe("paused transferFrom", async () => {
@@ -732,7 +732,7 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
                       await expectRevert(this.token.burnFrom(whitelisted, this.approve, { from: frozen }), "Freezable: account is frozen");
                     });
                     it("revert overflow burnFrom", async () => {
-                      await expectRevert(this.token.burnFrom(whitelisted1, this.overflow, { from: whitelisted }), "ERC20: burn amount exceeds balance.");
+                      await expectRevert(this.token.burnFrom(whitelisted1, this.overflow, { from: whitelisted }), "ERC20: burn amount exceeds balance");
                     });
                     it("revert empty address ", async () => {
                       await expectRevert(this.token.burnFrom(ZERO_ADDRESS, this.overflow, { from: whitelisted }), "Whitelistable: account is not whitelisted");
