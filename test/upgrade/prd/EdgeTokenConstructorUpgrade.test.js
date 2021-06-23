@@ -34,7 +34,7 @@ contract("EdgeTokenConstructorUpgrade", ([owner, admin, operator, proxyAdmin, pr
   context("deployed proxy", () => {
     describe("has implementation set", () => {
       it("check implementation set", async () => {
-        assert.equal(await getImplementation(this.proxy), this.tokenImpl.address.toLowerCase());
+        assert.equal(await getImplementation(this.proxy), this.tokenImpl.address);
       });
       describe("contracts initialized", () => {
         it("base operators", async () => {
@@ -47,12 +47,12 @@ contract("EdgeTokenConstructorUpgrade", ([owner, admin, operator, proxyAdmin, pr
     });
     context("admin set", () => {
       it("check admin set", async () => {
-        assert.equal(await getAdmin(this.proxy), proxyAdmin.toLowerCase());
+        assert.equal(await getAdmin(this.proxy), proxyAdmin);
       });
       describe("non-functional", () => {
         it("admin transfer admin", async () => {
           ({ logs: this.logs } = await this.proxy.changeAdmin(proxyAdminNew, { from: proxyAdmin }));
-          assert.equal(await getAdmin(this.proxy), proxyAdminNew.toLowerCase());
+          assert.equal(await getAdmin(this.proxy), proxyAdminNew);
         });
         it("emits a AdminChanged event", () => {
           expectEvent.inLogs(this.logs, "AdminChanged", { previousAdmin: proxyAdmin, newAdmin: proxyAdminNew });
@@ -61,7 +61,7 @@ contract("EdgeTokenConstructorUpgrade", ([owner, admin, operator, proxyAdmin, pr
       describe("functional", () => {
         it("admin transfer admin", async () => {
           ({ logs: this.logs } = await this.proxy.changeAdmin(proxyAdminNew, { from: proxyAdmin }));
-          assert.equal(await getAdmin(this.proxy), proxyAdminNew.toLowerCase());
+          assert.equal(await getAdmin(this.proxy), proxyAdminNew);
         });
         it("emits a AdminChanged event", () => {
           expectEvent.inLogs(this.logs, "AdminChanged", { previousAdmin: proxyAdmin, newAdmin: proxyAdminNew });
@@ -72,7 +72,7 @@ contract("EdgeTokenConstructorUpgrade", ([owner, admin, operator, proxyAdmin, pr
           describe("from proxy admin", () => {
             it("can transfer admin", async () => {
               ({ logs: this.logs } = await this.proxy.changeAdmin(proxyAdminNew, { from: proxyAdmin }));
-              assert.equal(await getAdmin(this.proxy), proxyAdminNew.toLowerCase());
+              assert.equal(await getAdmin(this.proxy), proxyAdminNew);
             });
             it("emits a AdminChanged event", () => {
               expectEvent.inLogs(this.logs, "AdminChanged", { previousAdmin: proxyAdmin, newAdmin: proxyAdminNew });
@@ -81,7 +81,7 @@ contract("EdgeTokenConstructorUpgrade", ([owner, admin, operator, proxyAdmin, pr
         });
         describe("functional", () => {
           it("reverts when assigning empty address", async () => {
-            await expectRevert(this.proxy.changeAdmin(ZERO_ADDRESS, { from: proxyAdmin }), "Cannot change the admin of a proxy to the zero address.");
+            await expectRevert(this.proxy.changeAdmin(ZERO_ADDRESS, { from: proxyAdmin }), "Cannot change the admin of a proxy to the zero address");
           });
           it("revert from token admin", async () => {
             await assertRevert(this.proxy.changeAdmin(proxyAdminNew, { from: admin }));
@@ -103,12 +103,12 @@ contract("EdgeTokenConstructorUpgrade", ([owner, admin, operator, proxyAdmin, pr
               await this.proxy.upgradeTo(this.tokenImplUpgrade.address, { from: proxyAdmin });
             });
             it("new implementation set", async () => {
-              assert.equal(await getImplementation(this.proxy), this.tokenImplUpgrade.address.toLowerCase());
+              assert.equal(await getImplementation(this.proxy), this.tokenImplUpgrade.address);
             });
           });
           describe("non-functional", () => {
             it("reverts when implementation empty address", async () => {
-              await expectRevert(this.proxy.upgradeTo(ZERO_ADDRESS, { from: proxyAdmin }), "Cannot set a proxy implementation to a non-contract address.");
+              await expectRevert(this.proxy.upgradeTo(ZERO_ADDRESS, { from: proxyAdmin }), "Cannot set a proxy implementation to a non-contract address");
             });
           });
         });
@@ -119,7 +119,7 @@ contract("EdgeTokenConstructorUpgrade", ([owner, admin, operator, proxyAdmin, pr
                 await this.proxy.upgradeToAndCall(this.tokenImplUpgrade.address, this.initializeDataV1, { from: proxyAdmin });
               });
               it("implementation set", async () => {
-                assert.equal(await getImplementation(this.proxy), this.tokenImplUpgrade.address.toLowerCase());
+                assert.equal(await getImplementation(this.proxy), this.tokenImplUpgrade.address);
               });
             });
           });
