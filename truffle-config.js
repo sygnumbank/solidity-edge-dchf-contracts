@@ -30,6 +30,17 @@ module.exports = {
       gasPrice: 10000000000,
       network_id: "1",
     },
+    mumbai: {
+      provider: () =>
+        new HDWalletProvider({
+          mnemonic: {
+            phrase: process.env.MUMBAI_MNEMONIC_PHRASE,
+          },
+          providerOrUrl: process.env.MUMBAI_PROVIDER,
+        }),
+      gasPrice: 1000000000,
+      network_id: 80001,
+    },
   },
   plugins: ["solidity-coverage", "verify-on-etherscan"],
   compilers: {
