@@ -44,6 +44,14 @@ An overview of the most important extensions of the EDGE token can be found belo
 
 Note: for now this repo only works with NodeJS 10.
 
+To use Node Version Manager (nvm), this repo has a .nvmrc file.
+```console
+nvm use
+
+# Only required if specified node version is not installed
+nvm install
+```
+
 Obtain a [gitlab access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html). Using the `api` scope should suffice.
 
 ```console
