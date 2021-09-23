@@ -15,6 +15,7 @@ const EdgeTokenV1 = artifacts.require("EdgeTokenV1");
 const EdgeTokenConstructorUpgrade = artifacts.require("EdgeTokenConstructorUpgrade");
 const EdgeTokenWhitelistableUpgrade = artifacts.require("EdgeTokenWhitelistableUpgrade");
 const EdgeTokenBlockUnblockTraderUpgrade = artifacts.require("EdgeTokenBlockUnblockTraderUpgrade");
+const EdgeTokenDecimalUpgrade = artifacts.require("EdgeTokenDecimalUpgrade");
 
 const newBool = true;
 const newUint = 5;
@@ -38,6 +39,7 @@ module.exports = {
   EdgeTokenConstructorUpgrade,
   EdgeTokenWhitelistableUpgrade,
   EdgeTokenBlockUnblockTraderUpgrade,
+  EdgeTokenDecimalUpgrade,
   TWO_ADDRESSES,
   newBool,
   newUint,

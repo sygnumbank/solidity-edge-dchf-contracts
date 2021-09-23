@@ -2,6 +2,7 @@ const EdgeToken = artifacts.require("EdgeToken");
 const EdgeTokenConstructorUpgrade = artifacts.require("EdgeTokenConstructorUpgrade");
 const EdgeTokenWhitelistableUpgrade = artifacts.require("EdgeTokenWhitelistableUpgrade");
 const EdgeTokenBlockUnblockTraderUpgrade = artifacts.require("EdgeTokenBlockUnblockTraderUpgrade");
+const EdgeTokenDecimalUpgrade = artifacts.require("EdgeTokenDecimalUpgrade");
 const EdgeTokenProxy = artifacts.require("EdgeTokenProxy");
 const encodeCall = require("zos-lib/lib/helpers/encodeCall");
 
@@ -34,12 +35,17 @@ module.exports = function (deployer, network) {
     .then((edgeTokenBlockUnblockTraderUpgrade) => {
       this.edgeTokenBlockUnblockTraderUpgrade = edgeTokenBlockUnblockTraderUpgrade;
 
+      return deployer.deploy(EdgeTokenDecimalUpgrade);
+    })
+    .then((edgeTokenDecimalUpgrade) => {
+      this.edgeTokenDecimalUpgrade = edgeTokenDecimalUpgrade;
+
       const initializeData = encodeCall.default("initialize", ["address"], [BASE_OPERATORS_CONTRACT_ADDRESS]);
 
       return deployer.deploy(EdgeTokenProxy, this.edgeToken.address, PROXY_ADMIN, initializeData);
     })
     .then(async (edgeTokenProxy) => {
-      if (network === "goerli") {
+      if (network === "goerli" || network === "mumbai") {
         this.edgeTokenProxy = edgeTokenProxy;
         console.log("edgeTokenProxy", edgeTokenProxy.address);
 
@@ -54,6 +60,10 @@ module.exports = function (deployer, network) {
         currentImpl = await EdgeTokenBlockUnblockTraderUpgrade.at(edgeTokenProxy.address);
         await edgeTokenProxy.upgradeTo(this.edgeTokenBlockUnblockTraderUpgrade.address, { from: PROXY_ADMIN });
         await currentImpl.initializeBlockerTraderOperators(BLOCKER_OPERATORS_CONTRACT_ADDRESS, TRADER_OPERATORS_CONTRACT_ADDRESS);
+
+        currentImpl = await EdgeTokenDecimalUpgrade.at(edgeTokenProxy.address);
+        await edgeTokenProxy.upgradeTo(this.edgeTokenDecimalUpgrade.address, { from: PROXY_ADMIN });
+        await currentImpl.initializeDecimalsConstructor();
       }
     });
 };
