@@ -11,12 +11,12 @@ import "../blockUnblockTrader/EdgeTokenBlockUnblockTraderUpgrade.sol";
 
 contract EdgeTokenDecimalUpgrade is EdgeTokenBlockUnblockTraderUpgrade {
     uint8 private _decimals;
-    bool public initializedCDecimalUpgrade;
+    bool public initializedDecimalUpgrade;
 
     function initializeDecimalsConstructor() public {
-        require(!initializedCDecimalUpgrade, "EdgeTokenDecimalUpgrade: already initialized");
+        require(!initializedDecimalUpgrade, "EdgeTokenDecimalUpgrade: already initialized");
         _decimals = 6;
-        initializedCDecimalUpgrade = true;
+        initializedDecimalUpgrade = true;
     }
 
     /**
