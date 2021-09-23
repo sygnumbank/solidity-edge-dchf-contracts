@@ -1,8 +1,8 @@
 /**
  * @title EdgeTokenDecimalUpgrade
  * @author Team 3301 <team3301@sygnum.com>
- * @dev This contract will be used in the second version of upgrading the EdgeToken to change the decimals value from 2
- *      to 8. Additionally, as '_decimals' was declared private, the getter function 'decimals()' required to be
+ * @dev This contract will be used in the fourth version of upgrading the EdgeToken to change the decimals value from 2
+ *      to 6. Additionally, as '_decimals' was declared private, the getter function 'decimals()' required to be
  *      overloaded to point to the correct/new/overloaded variables.
  */
 pragma solidity 0.5.12;
