@@ -5,7 +5,7 @@
  */
 pragma solidity 0.5.12;
 
-import "../whitelistable/EdgeTokenWhitelistableUpgrade.sol";
+import "../v2_EdgeTokenWhitelistableUpgrade/EdgeTokenWhitelistableUpgrade.sol";
 import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Blockable.sol";
 import "@sygnum/solidity-base-contracts/contracts/helpers/ERC20/ERC20Tradeable.sol";
 
