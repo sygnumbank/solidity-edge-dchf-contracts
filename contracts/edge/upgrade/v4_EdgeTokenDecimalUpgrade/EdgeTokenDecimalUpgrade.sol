@@ -2,7 +2,7 @@
  * @title EdgeTokenDecimalUpgrade
  * @author Team 3301 <team3301@sygnum.com>
  * @dev This contract will be used in the second version of upgrading the EdgeToken to change the decimals value from 2
- *      to 8. Additionally, as '_decimals' was declared private, the getter function 'decimals()' required to be
+ *      to 6. Additionally, as '_decimals' was declared private, the getter function 'decimals()' required to be
  *      overloaded to point to the correct/new/overloaded variables.
  */
 pragma solidity 0.5.12;
@@ -11,12 +11,12 @@ import "../v3_EdgeTokenBlockUnblockTraderUpgrade/EdgeTokenBlockUnblockTraderUpgr
 
 contract EdgeTokenDecimalUpgrade is EdgeTokenBlockUnblockTraderUpgrade {
     uint8 private _decimals;
-    bool public initializedCDecimalUpgrade;
+    bool public initializedDecimalUpgrade;
 
     function initializeDecimalsConstructor() public {
-        require(!initializedCDecimalUpgrade, "EdgeTokenDecimalUpgrade: already initialized");
+        require(!initializedDecimalUpgrade, "EdgeTokenDecimalUpgrade: already initialized");
         _decimals = 6;
-        initializedCDecimalUpgrade = true;
+        initializedDecimalUpgrade = true;
     }
 
     /**
