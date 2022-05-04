@@ -79,7 +79,7 @@ contract EdgeToken is
      */
     function mint(address _account, uint256 _amount) public {
         if (isSystem(msg.sender)) {
-            require(!isFrozen(_account), "EdgeToken: Account must be frozen if system calling.");
+            require(!isFrozen(_account), "EdgeToken: Account must not be frozen if system calling.");
         }
         super._mint(_account, _amount);
         emit Minted(msg.sender, _account, _amount);
