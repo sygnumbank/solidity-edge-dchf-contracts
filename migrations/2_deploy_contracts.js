@@ -3,6 +3,7 @@ const EdgeTokenConstructorUpgrade = artifacts.require("EdgeTokenConstructorUpgra
 const EdgeTokenWhitelistableUpgrade = artifacts.require("EdgeTokenWhitelistableUpgrade");
 const EdgeTokenBlockUnblockTraderUpgrade = artifacts.require("EdgeTokenBlockUnblockTraderUpgrade");
 const EdgeTokenDecimalUpgrade = artifacts.require("EdgeTokenDecimalUpgrade");
+const EdgeTokenSystemConfiscateUpgrade = artifacts.require("EdgeTokenSystemConfiscateUpgrade");
 const EdgeTokenProxy = artifacts.require("EdgeTokenProxy");
 const encodeCall = require("zos-lib/lib/helpers/encodeCall");
 
@@ -40,6 +41,11 @@ module.exports = function (deployer, network) {
     .then((edgeTokenDecimalUpgrade) => {
       this.edgeTokenDecimalUpgrade = edgeTokenDecimalUpgrade;
 
+      return deployer.deploy(EdgeTokenSystemConfiscateUpgrade);
+    })
+    .then((edgeTokenSystemConfiscateUpgrade) => {
+      this.edgeTokenSystemConfiscateUpgrade = edgeTokenSystemConfiscateUpgrade;
+
       const initializeData = encodeCall.default("initialize", ["address"], [BASE_OPERATORS_CONTRACT_ADDRESS]);
 
       return deployer.deploy(EdgeTokenProxy, this.edgeToken.address, PROXY_ADMIN, initializeData);
@@ -64,6 +70,10 @@ module.exports = function (deployer, network) {
         currentImpl = await EdgeTokenDecimalUpgrade.at(edgeTokenProxy.address);
         await edgeTokenProxy.upgradeTo(this.edgeTokenDecimalUpgrade.address, { from: PROXY_ADMIN });
         await currentImpl.initializeDecimalsConstructor();
+
+        currentImpl = await EdgeTokenSystemConfiscateUpgrade.at(edgeTokenProxy.address);
+        await edgeTokenProxy.upgradeTo(this.edgeTokenSystemConfiscateUpgrade.address, { from: PROXY_ADMIN });
+        await currentImpl.initializeSystemConfiscateConstructor();
       }
     });
 };
