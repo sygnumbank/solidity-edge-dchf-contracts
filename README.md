@@ -2,11 +2,11 @@
 
 **Secure Edge smart contracts backing Sygnum's regulated DCHF token.** Built on a solid foundation of community-vetted code, utilizing [OpenZeppelin industry standards](https://github.com/OpenZeppelin/openzeppelin-contracts).
 
- * [EdgeToken](contracts/edge/EdgeToken.sol) is build using [function overloading](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#function-overloading) principles from [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_computer_science) within [ERC20 functions](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/edge/ERC20/).
- * Utilizes [role-based permissioning](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/-/tree/develop/contracts/role) scheme and a [whitelist](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/-/blob/develop/contracts/helpers/Whitelist.sol) from [solidity-base-contracts repo](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/) to ensure a setup in line with regulatory requirements.
- * Exportable [EdgeToken](contracts/edge/EdgeToken.sol) and [EdgeTokenProxy](contracts/edge/EdgeTokenProxy.sol) contract instances usable by other [Gitlab NPM Packages](https://docs.gitlab.com/ee/user/packages/npm_registry/).
- * Features a [blocked balance](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/-/blob/develop/contracts/helpers/ERC20/ERC20Blockable.sol) in addition to the standard ERC20 balance (which becomes the available balance) which is useful to block tokens (e.g. for orders on secondary markets) without the need to move them into a separate escrow contract.
- * Audited by [Quantstamp](https://quantstamp.com/) with no major findings.
+- [EdgeToken](contracts/edge/EdgeToken.sol) is build using [function overloading](https://solidity.readthedocs.io/en/v0.4.21/contracts.html#function-overloading) principles from [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_computer_science) within [ERC20 functions](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/contracts/edge/ERC20/).
+- Utilizes [role-based permissioning](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/-/tree/develop/contracts/role) scheme and a [whitelist](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/-/blob/develop/contracts/helpers/Whitelist.sol) from [solidity-base-contracts repo](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/) to ensure a setup in line with regulatory requirements.
+- Exportable [EdgeToken](contracts/edge/EdgeToken.sol) and [EdgeTokenProxy](contracts/edge/EdgeTokenProxy.sol) contract instances usable by other [Gitlab NPM Packages](https://docs.gitlab.com/ee/user/packages/npm_registry/).
+- Features a [blocked balance](https://gitlab.com/sygnum/blockchain-engineering/ethereum/solidity-base-contracts/-/blob/develop/contracts/helpers/ERC20/ERC20Blockable.sol) in addition to the standard ERC20 balance (which becomes the available balance) which is useful to block tokens (e.g. for orders on secondary markets) without the need to move them into a separate escrow contract.
+- Audited by [Quantstamp](https://quantstamp.com/) with no major findings.
 
 ## Overview
 
@@ -38,13 +38,14 @@ An overview of the most important extensions of the EDGE token can be found belo
 
 `block`: transfer a specified amount of tokens from an account’s available balance ( balanceOf() ) to its blocked balance ( blockedBalanceOf() ). Can only be called by Blocker or Operator. This function can be used to block funds which are “in order” on a secondary market or held in escrow for other purposes (e.g. lending services), while at the same time ensuring that the tokens remain in the account and name of the token holder.
 
-`unblock`: transfer a specified amount of tokens from an account’s blocked balance ( `blockedBalanceOf()` ) to its available balance ( `balanceOf()` ). Can only be called by Blocker or Operator. 
+`unblock`: transfer a specified amount of tokens from an account’s blocked balance ( `blockedBalanceOf()` ) to its available balance ( `balanceOf()` ). Can only be called by Blocker or Operator.
 
 ### Installation
 
-Note: for now this repo only works with NodeJS 10.
+Note: for now this repo only works with NodeJS 16.
 
 To use Node Version Manager (nvm), this repo has a .nvmrc file.
+
 ```console
 nvm use
 
@@ -64,7 +65,8 @@ npm config set @sygnum:registry https://gitlab.com/api/v4/packages/npm/
 npm config set '//gitlab.com/api/v4/packages/npm/:_authToken' "<your_access_token>"
 ```
 
-Now you are able to install and use all private npm packages within the @sygnum gitlab org. 
+Now you are able to install and use all private npm packages within the @sygnum gitlab org.
+
 ```console
 npm i --save-dev @sygnum/solidity-edge-dchf-contracts
 ```
@@ -74,14 +76,14 @@ npm i --save-dev @sygnum/solidity-edge-dchf-contracts
 Once installed, you can use the contracts in the library by importing them:
 
 ```solidity
-pragma solidity 0.5.0;
+pragma solidity 0.8.8;
 
 import "@sygnum/solidity-edge-dchf-contracts/contracts/edge/EdgeToken.sol";
 
 contract MyContract is EdgeToken {
-    constructor() public {
-    }
+  constructor() public {}
 }
+
 ```
 
 To keep your system secure, you should **always** use the installed code as-is, and neither copy-paste it from online sources, nor modify it yourself. The library is designed so that only the contracts and functions you use are deployed, so you don't need to worry about it needlessly increasing gas costs.
@@ -89,7 +91,7 @@ To keep your system secure, you should **always** use the installed code as-is, 
 ### Testing
 
 First, install all required packages:  
-`npm install`  
+`npm install`
 
 Then run:
 `npm test`

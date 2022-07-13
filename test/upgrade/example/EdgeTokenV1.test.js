@@ -58,11 +58,11 @@ contract("EdgeTokenV1", ([admin, newAddress]) => {
       it("reverts when re-initializating", async () => {
         await expectRevert(
           this.token.initialize(this.baseOperators.address, this.whitelist.address, newBool, newAddress, newUint),
-          "Initializable: Contract instance has already been initialized"
+          "InitializableContractAlreadyInitialized()"
         );
       });
       it("reverts when calling re-initialization sub function", async () => {
-        await expectRevert(this.token.initV1(newBool, newAddress, newUint), "EdgeTokenV1: already initialized");
+        await expectRevert(this.token.initV1(newBool, newAddress, newUint), "EdgeTokenV1AlreadyInitialized()");
       });
     });
   });

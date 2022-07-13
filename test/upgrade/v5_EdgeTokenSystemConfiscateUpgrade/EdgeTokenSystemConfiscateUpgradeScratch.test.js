@@ -199,16 +199,10 @@ contract("EdgeTokenSystemConfiscateUpgrade", ([owner, admin, operator, system, p
               // try confiscate from whitelisted (non-system, non-operator)
               // error message is "caller does not have the operator role nor system"
               // this means implementation is not being set to EdgeToken for some reason
-              await expectRevert(
-                this.token.confiscate(whitelisted, whitelisted2, this.confiscate, { from: whitelisted }),
-                "Operatorable: caller does not have the operator role"
-              );
+              await expectRevert(this.token.confiscate(whitelisted, whitelisted2, this.confiscate, { from: whitelisted }), "OperatorableCallerNotOperator()");
 
               // if everything worked, this should revert
-              await expectRevert(
-                this.token.confiscate(whitelisted, whitelisted2, this.confiscate, { from: system }),
-                "Operatorable: caller does not have the operator role"
-              );
+              await expectRevert(this.token.confiscate(whitelisted, whitelisted2, this.confiscate, { from: system }), "OperatorableCallerNotOperator()");
             });
             it("balance unaffected", async () => {
               assert.equal(await this.token.balanceOf(whitelisted2), 0);

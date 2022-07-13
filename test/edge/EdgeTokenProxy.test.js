@@ -58,7 +58,7 @@ contract("EdgeTokenProxy", ([owner, admin, operator, proxyAdmin, proxyAdminNew, 
                 await assertRevert(this.proxy.changeAdmin(proxyAdminNew, { from: attacker }));
               });
               it("revert when new admin empty address", async () => {
-                await expectRevert(this.proxy.changeAdmin(ZERO_ADDRESS, { from: proxyAdmin }), "Cannot change the admin of a proxy to the zero address");
+                await expectRevert(this.proxy.changeAdmin(ZERO_ADDRESS, { from: proxyAdmin }), "ERC1967: new admin is the zero address");
               });
             });
             describe("functional", () => {
@@ -78,7 +78,7 @@ contract("EdgeTokenProxy", ([owner, admin, operator, proxyAdmin, proxyAdminNew, 
           describe("upgrade to", () => {
             describe("non-functional", () => {
               it("revert empty implementation address", async () => {
-                await expectRevert(this.proxy.upgradeTo(ZERO_ADDRESS, { from: proxyAdmin }), "Cannot set a proxy implementation to a non-contract address");
+                await expectRevert(this.proxy.upgradeTo(ZERO_ADDRESS, { from: proxyAdmin }), "ERC1967: new implementation is not a contract");
               });
               it("revert from attacker", async () => {
                 await assertRevert(this.proxy.upgradeTo(this.tokenImplV1.address, { from: attacker }));
@@ -120,10 +120,13 @@ contract("EdgeTokenProxy", ([owner, admin, operator, proxyAdmin, proxyAdminNew, 
             context("minting", () => {
               describe("non-functional", () => {
                 it("revert from proxy admin", async () => {
-                  await expectRevert(this.token.mint(whitelisted, MINT, { from: proxyAdmin }), "Cannot call fallback function from the proxy admin");
+                  await expectRevert(
+                    this.token.mint(whitelisted, MINT, { from: proxyAdmin }),
+                    "TransparentUpgradeableProxy: admin cannot fallback to proxy target"
+                  );
                 });
                 it("revert from attacker", async () => {
-                  await expectRevert(this.token.mint(whitelisted, MINT, { from: attacker }), "Operatorable: caller does not have the operator role nor system");
+                  await expectRevert(this.token.mint(whitelisted, MINT, { from: attacker }), "OperatorableCallerNotOperatorOrSystem()");
                 });
               });
               describe("functional", () => {

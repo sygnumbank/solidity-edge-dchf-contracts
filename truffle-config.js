@@ -10,23 +10,17 @@ module.exports = {
       disableConfirmationListener: true,
     },
     ropsten: {
-      provider: () => {
-        return new HDWalletProvider(process.env.ROPSTEN_MNENOMIC_PHRASE, process.env.ROPSTEN_PROVIDER);
-      },
+      provider: () => new HDWalletProvider(process.env.ROPSTEN_MNENOMIC_PHRASE, process.env.ROPSTEN_PROVIDER),
       gasPrice: 10000000000,
       network_id: 3,
     },
     goerli: {
-      provider: () => {
-        return new HDWalletProvider(process.env.GOERLI_MNENOMIC_PHRASE, process.env.GOERLI_PROVIDER);
-      },
+      provider: () => new HDWalletProvider(process.env.GOERLI_MNENOMIC_PHRASE, process.env.GOERLI_PROVIDER),
       gasPrice: 10000000000,
       network_id: 5,
     },
     mainnet: {
-      provider: () => {
-        return new HDWalletProvider(process.env.MAINNET_MNENOMIC_PHRASE, process.env.MAINNET_PROVIDER);
-      },
+      provider: () => new HDWalletProvider(process.env.MAINNET_MNENOMIC_PHRASE, process.env.MAINNET_PROVIDER),
       gasPrice: 10000000000,
       network_id: 1,
     },
@@ -39,7 +33,7 @@ module.exports = {
   plugins: ["solidity-coverage", "verify-on-etherscan"],
   compilers: {
     solc: {
-      version: "0.5.12",
+      version: "0.8.8",
       settings: {
         optimizer: {
           enabled: true,

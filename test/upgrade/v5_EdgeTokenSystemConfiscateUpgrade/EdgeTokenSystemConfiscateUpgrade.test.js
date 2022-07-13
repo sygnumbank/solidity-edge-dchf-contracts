@@ -182,10 +182,7 @@ contract("EdgeTokenSystemConfiscateUpgrade", ([owner, admin, operator, system, p
                   });
                   describe("non-functional", () => {
                     it("reverts when implementation empty address", async () => {
-                      await expectRevert(
-                        this.proxy.upgradeTo(ZERO_ADDRESS, { from: proxyAdmin }),
-                        "Cannot set a proxy implementation to a non-contract address"
-                      );
+                      await expectRevert(this.proxy.upgradeTo(ZERO_ADDRESS, { from: proxyAdmin }), "ERC1967: new implementation is not a contract");
                     });
                   });
                 });
@@ -256,7 +253,7 @@ contract("EdgeTokenSystemConfiscateUpgrade", ([owner, admin, operator, system, p
                           beforeEach(async () => {
                             await expectRevert(
                               this.token.confiscate(whitelisted, whitelisted2, this.confiscate, { from: system }),
-                              "Operatorable: caller does not have the operator role"
+                              "OperatorableCallerNotOperator()"
                             );
                           });
                           it("balance unaffected", async () => {

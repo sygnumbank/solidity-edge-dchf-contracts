@@ -4,15 +4,17 @@
  * @dev This contract will be used to allow system to use the confiscate tokens as well,
  * versus only operators previously.
  */
-pragma solidity 0.5.12;
+pragma solidity 0.8.8;
 
 import "../v4_EdgeTokenDecimalUpgrade/EdgeTokenDecimalUpgrade.sol";
 
 contract EdgeTokenSystemConfiscateUpgrade is EdgeTokenDecimalUpgrade {
     bool public initializedSystemConfiscate;
 
-    function initializeSystemConfiscateConstructor() public {
-        require(!initializedSystemConfiscate, "EdgeTokenSystemConfiscateUpgrade: already initialized");
+    error EdgeTokenSystemConfiscateUpgradeAlreadyInitialized();
+
+    function initializeSystemConfiscateConstructor() public virtual {
+        if (initializedSystemConfiscate) revert EdgeTokenSystemConfiscateUpgradeAlreadyInitialized();
         initializedSystemConfiscate = true;
     }
 
@@ -29,8 +31,8 @@ contract EdgeTokenSystemConfiscateUpgrade is EdgeTokenDecimalUpgrade {
         address _whitelist,
         address _blockerOperators,
         address _traderOperators
-    ) public initializer {
-        super.initialize(_baseOperators, _whitelist);
+    ) public virtual initializer {
+        Operatorable.initialize(_baseOperators);
         initializeConstructor();
         initializeWhitelist(_whitelist);
         initializeBlockerTraderOperators(_blockerOperators, _traderOperators);
@@ -48,7 +50,15 @@ contract EdgeTokenSystemConfiscateUpgrade is EdgeTokenDecimalUpgrade {
         address _confiscatee,
         address _receiver,
         uint256 _amount
-    ) public onlyOperatorOrSystem whenNotPaused whenWhitelisted(_receiver) whenWhitelisted(_confiscatee) {
+    )
+        public
+        virtual
+        override
+        onlyOperatorOrSystem
+        whenNotPaused
+        whenWhitelisted(_receiver)
+        whenWhitelisted(_confiscatee)
+    {
         super._transfer(_confiscatee, _receiver, _amount);
     }
 }

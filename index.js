@@ -1,7 +1,7 @@
 const TruffleContract = require("@truffle/contract");
 /* eslint-disable import/no-unresolved */
-const edgeTokenJson = require("./build/contracts/EdgeToken.json");
-const edgeTokenProxyJson = require("./build/contracts/EdgeTokenProxy.json");
+const edgeTokenJson = require("./artifacts/contracts/edge/EdgeToken.sol/EdgeToken.json");
+const edgeTokenProxyJson = require("./artifacts/contracts/edge/EdgeTokenProxy.sol/EdgeTokenProxy.json");
 /* eslint-enable import/no-unresolved */
 
 module.exports = {

@@ -5,7 +5,7 @@ const EdgeTokenBlockUnblockTraderUpgrade = artifacts.require("EdgeTokenBlockUnbl
 const EdgeTokenDecimalUpgrade = artifacts.require("EdgeTokenDecimalUpgrade");
 const EdgeTokenSystemConfiscateUpgrade = artifacts.require("EdgeTokenSystemConfiscateUpgrade");
 const EdgeTokenProxy = artifacts.require("EdgeTokenProxy");
-const encodeCall = require("zos-lib/lib/helpers/encodeCall");
+const { encodeCall } = require("@openzeppelin/upgrades"); /* TODO update library to openzeppelin/upgrades */
 
 const {
   BASE_OPERATORS_CONTRACT_ADDRESS,
@@ -46,7 +46,7 @@ module.exports = function (deployer, network) {
     .then((edgeTokenSystemConfiscateUpgrade) => {
       this.edgeTokenSystemConfiscateUpgrade = edgeTokenSystemConfiscateUpgrade;
 
-      const initializeData = encodeCall.default("initialize", ["address"], [BASE_OPERATORS_CONTRACT_ADDRESS]);
+      const initializeData = encodeCall("initialize", ["address"], [BASE_OPERATORS_CONTRACT_ADDRESS]);
 
       return deployer.deploy(EdgeTokenProxy, this.edgeToken.address, PROXY_ADMIN, initializeData);
     })

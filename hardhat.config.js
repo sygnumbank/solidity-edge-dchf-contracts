@@ -2,11 +2,42 @@
  * @type import('hardhat/config').HardhatUserConfig
  */
 require("@nomiclabs/hardhat-truffle5");
+require("@openzeppelin/hardhat-upgrades");
+require("hardhat-deploy");
+require("hardhat-deploy-ethers");
+require("@nomiclabs/hardhat-ethers");
+require("@nomiclabs/hardhat-etherscan");
+require("@openzeppelin/hardhat-upgrades");
+
+require("hardhat-gas-reporter");
+require("hardhat-contract-sizer");
 require("solidity-coverage");
+
 require("dotenv").config();
 
 module.exports = {
-  solidity: "0.5.12",
+  solidity: {
+    compilers: [
+      {
+        version: "0.8.8",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      },
+      {
+        version: "0.5.12",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      },
+    ],
+  },
   networks: {
     hardhat: {
       allowUnlimitedContractSize: true,
@@ -29,5 +60,10 @@ module.exports = {
       gasPrice: 1000000000,
       network_id: 80001,
     },
+  },
+  // hardhat-deploy
+  namedAccounts: {
+    deployer: 0,
+    tokenOwner: 1,
   },
 };
