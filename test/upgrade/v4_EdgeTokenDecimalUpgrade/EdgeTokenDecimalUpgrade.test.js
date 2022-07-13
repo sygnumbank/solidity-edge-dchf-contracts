@@ -176,10 +176,7 @@ contract("EdgeTokenDecimalUpgrade", ([owner, admin, operator, proxyAdmin, proxyA
                   });
                   describe("non-functional", () => {
                     it("reverts when implementation empty address", async () => {
-                      await expectRevert(
-                        this.proxy.upgradeTo(ZERO_ADDRESS, { from: proxyAdmin }),
-                        "Cannot set a proxy implementation to a non-contract address"
-                      );
+                      await expectRevert(this.proxy.upgradeTo(ZERO_ADDRESS, { from: proxyAdmin }), "ERC1967: new implementation is not a contract");
                     });
                   });
                 });

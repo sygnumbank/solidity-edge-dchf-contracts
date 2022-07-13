@@ -81,7 +81,7 @@ contract("EdgeTokenBlockUnblockTraderUpgrade", ([owner, admin, operator, proxyAd
             expectEvent.inLogs(this.logs, "AdminChanged", { previousAdmin: proxyAdmin, newAdmin: proxyAdminNew });
           });
           it("reverts when assigning empty address", async () => {
-            await expectRevert(this.proxy.changeAdmin(ZERO_ADDRESS, { from: proxyAdmin }), "Cannot change the admin of a proxy to the zero address");
+            await expectRevert(this.proxy.changeAdmin(ZERO_ADDRESS, { from: proxyAdmin }), "ERC1967: new admin is the zero address");
           });
           describe("from token admin", () => {
             it("reverts", async () => {
@@ -116,7 +116,7 @@ contract("EdgeTokenBlockUnblockTraderUpgrade", ([owner, admin, operator, proxyAd
           });
           describe("non-functional", () => {
             it("reverts when implementation empty address", async () => {
-              await expectRevert(this.proxy.upgradeTo(ZERO_ADDRESS, { from: proxyAdmin }), "Cannot set a proxy implementation to a non-contract address");
+              await expectRevert(this.proxy.upgradeTo(ZERO_ADDRESS, { from: proxyAdmin }), "ERC1967: new implementation is not a contract");
             });
           });
         });

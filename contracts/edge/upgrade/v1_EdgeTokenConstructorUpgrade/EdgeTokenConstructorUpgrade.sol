@@ -7,7 +7,7 @@
  *      were declared private, the getter functions 'name(), symbol(), decimals()' required to be
  *      overloaded to point to the correct/new/overloaded variables.
  */
-pragma solidity 0.5.12;
+pragma solidity 0.8.8;
 
 import "../../EdgeToken.sol";
 
@@ -17,8 +17,10 @@ contract EdgeTokenConstructorUpgrade is EdgeToken {
     uint8 private _decimals;
     bool public initializedConstructorUpgrade;
 
-    function initializeConstructor() public {
-        require(!initializedConstructorUpgrade, "EdgeTokenConstructorUpgrade: already initialized");
+    error EdgeTokenConstructorUpgradeAlreadyInitialized();
+
+    function initializeConstructor() public virtual {
+        if (initializedConstructorUpgrade) revert EdgeTokenConstructorUpgradeAlreadyInitialized();
         _name = "Digital CHF";
         _symbol = "DCHF";
         _decimals = 2;
@@ -28,7 +30,7 @@ contract EdgeTokenConstructorUpgrade is EdgeToken {
     /**
      * @dev Returns the name of the token.
      */
-    function name() public view returns (string memory) {
+    function name() public view virtual override returns (string memory) {
         return _name;
     }
 
@@ -36,7 +38,7 @@ contract EdgeTokenConstructorUpgrade is EdgeToken {
      * @dev Returns the symbol of the token, usually a shorter version of the
      * name.
      */
-    function symbol() public view returns (string memory) {
+    function symbol() public view virtual override returns (string memory) {
         return _symbol;
     }
 
@@ -52,7 +54,7 @@ contract EdgeTokenConstructorUpgrade is EdgeToken {
      * no way affects any of the arithmetic of the contract, including
      * {IERC20-balanceOf} and {IERC20-transfer}.
      */
-    function decimals() public view returns (uint8) {
+    function decimals() public view virtual override returns (uint8) {
         return _decimals;
     }
 }

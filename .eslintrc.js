@@ -14,7 +14,7 @@ module.exports = {
     web3: true,
   },
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2018,
   },
   rules: {
     "prettier/prettier": "error",

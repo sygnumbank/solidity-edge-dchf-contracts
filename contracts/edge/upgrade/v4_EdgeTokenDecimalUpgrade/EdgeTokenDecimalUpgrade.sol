@@ -5,7 +5,7 @@
  *      to 6. Additionally, as '_decimals' was declared private, the getter function 'decimals()' required to be
  *      overloaded to point to the correct/new/overloaded variables.
  */
-pragma solidity 0.5.12;
+pragma solidity 0.8.8;
 
 import "../v3_EdgeTokenBlockUnblockTraderUpgrade/EdgeTokenBlockUnblockTraderUpgrade.sol";
 
@@ -13,8 +13,10 @@ contract EdgeTokenDecimalUpgrade is EdgeTokenBlockUnblockTraderUpgrade {
     uint8 private _decimals;
     bool public initializedDecimalUpgrade;
 
-    function initializeDecimalsConstructor() public {
-        require(!initializedDecimalUpgrade, "EdgeTokenDecimalUpgrade: already initialized");
+    error EdgeTokenDecimalUpgradeAlreadyInitialized();
+
+    function initializeDecimalsConstructor() public virtual {
+        if (initializedDecimalUpgrade) revert EdgeTokenDecimalUpgradeAlreadyInitialized();
         _decimals = 6;
         initializedDecimalUpgrade = true;
     }
@@ -31,7 +33,7 @@ contract EdgeTokenDecimalUpgrade is EdgeTokenBlockUnblockTraderUpgrade {
      * no way affects any of the arithmetic of the contract, including
      * {IERC20-balanceOf} and {IERC20-transfer}.
      */
-    function decimals() public view returns (uint8) {
+    function decimals() public view virtual override returns (uint8) {
         return _decimals;
     }
 }

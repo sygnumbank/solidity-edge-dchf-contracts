@@ -1,5 +1,5 @@
 const { BN, constants, expectEvent, expectRevert } = require("@openzeppelin/test-helpers");
-const { encodeCall } = require("zos-lib"); /* TODO update library to openzeppelin/upgrades */
+const { encodeCall } = require("@openzeppelin/upgrades"); /* TODO update library to openzeppelin/upgrades */
 const { ethers } = require("ethers");
 
 const { assertRevert, getAdmin, getImplementation } = require("./tools");

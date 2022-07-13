@@ -1,17 +1,28 @@
 const { load, THREE_HUNDRED_ADDRESS, THREE_HUNDRED_NUMBERS, MINT, BURN, TRANSFER } = require("@sygnum/solidity-base-contracts");
 
-const { expectRevert, EdgeToken, ZERO_ADDRESS, TWO_ADDRESSES } = require("../common");
+const { expectRevert, EdgeTokenBlockUnblockTraderUpgrade, ZERO_ADDRESS, TWO_ADDRESSES } = require("../../common");
 
-const { BaseOperators, Whitelist } = load(EdgeToken.currentProvider);
+const { BaseOperators, Whitelist, TraderOperators, BlockerOperators } = load(EdgeTokenBlockUnblockTraderUpgrade.currentProvider);
 
 contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whitelisted2, frozen, frozen1, notWhitelisted, attacker]) => {
   beforeEach(async () => {
     this.baseOperators = await BaseOperators.new(admin, { from: admin });
-    this.token = await EdgeToken.new({ from: admin });
-    this.whitelist = await Whitelist.new({ from: admin });
+    this.token = await EdgeTokenBlockUnblockTraderUpgrade.new({ from: admin });
 
+    this.whitelist = await Whitelist.new({ from: admin });
     await this.whitelist.initialize(this.baseOperators.address, { from: admin });
+
+    this.traderOperators = await TraderOperators.new({ from: admin });
+    await this.traderOperators.initialize(this.baseOperators.address, { from: admin });
+
+    this.blockerOperators = await BlockerOperators.new({ from: admin });
+    await this.blockerOperators.initialize(this.baseOperators.address, { from: admin });
+
+    // initialize EdgeToken and subsequent upgrades
     await this.token.methods["initialize(address,address)"](this.baseOperators.address, this.whitelist.address, { from: admin });
+    await this.token.methods["initializeConstructor()"]({ from: admin });
+    await this.token.methods["initializeWhitelist(address)"](this.whitelist.address, { from: admin });
+    await this.token.methods["initializeBlockerTraderOperators(address,address)"](this.blockerOperators.address, this.traderOperators.address, { from: admin });
   });
   describe("token initialized", () => {
     it("base operators", async () => {
@@ -19,15 +30,6 @@ contract("EdgeToken", ([admin, operator, system, whitelisted, whitelisted1, whit
     });
     it("whitelist", async () => {
       assert.equal(await this.token.getWhitelistContract(), this.whitelist.address);
-    });
-    it("name", async () => {
-      assert.equal(await this.token.name(), "Digital CHF");
-    });
-    it("symbol", async () => {
-      assert.equal(await this.token.symbol(), "DCHF");
-    });
-    it("decimals", async () => {
-      assert.equal(await this.token.decimals(), 2);
     });
   });
   context("Role set-up", () => {
