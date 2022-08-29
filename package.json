@@ -1,6 +1,6 @@
 {
   "name": "@sygnum/solidity-edge-dchf-contracts",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Solidity DCHF contracts used across the Sygnum platform.",
   "keywords": [
     "solidity",
@@ -50,7 +50,7 @@
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.6.0",
     "@openzeppelin/upgrades": "^2.8.0",
-    "@sygnum/solidity-base-contracts": "^2.1.0",
+    "@sygnum/solidity-base-contracts": "^2.2.0",
     "@truffle/contract": "^4.5.15",
     "ethers": "^5.6.9"
   },
@@ -62,6 +62,7 @@
     "@openzeppelin/hardhat-upgrades": "^1.19.0",
     "@openzeppelin/test-helpers": "^0.5.15",
     "@openzeppelin/upgrades": "^2.8.0",
+    "@sygnum/solidity-base-contracts": "^2.2.0",
     "@truffle/contract": "^4.5.14",
     "@truffle/hdwallet-provider": "^2.0.10",
     "abi-decoder": "^2.4.0",
@@ -89,10 +90,11 @@
     "solidity-coverage": "^0.7.21",
     "sort-package-json": "^1.57.0",
     "truffle": "5.1.24",
+    "truffle-flattener": "1.6.0",
     "web3": "^1.7.4"
   },
   "engines": {
-    "node": ">=16.0.0 <17.0.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "@sygnum:registry": "https://gitlab.com/api/v4/projects/15856546/packages/npm/"
